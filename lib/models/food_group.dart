@@ -4,4 +4,6 @@ class FoodGroup {
   String friendlyName;
   String image;
   String icon;
+
+  FoodGroup(this.enabled, this.name, this.image, this.icon);
 }

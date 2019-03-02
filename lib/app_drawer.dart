@@ -5,6 +5,11 @@ import 'package:fructika/search_route.dart';
 import 'package:fructika/settings_route.dart';
 
 class AppDrawer extends StatelessWidget {
+  final String _foodGroupTitle = "Food Groups";
+  final String _foodSearchTitle = "Food Search";
+  final String _settingsTitle = "Settings";
+  final String _aboutTitle = "About";
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -19,38 +24,49 @@ class AppDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.search),
-            title: Text('Food Search'),
+            title: Text(_foodSearchTitle),
             onTap: () {
               Navigator.pop(context);
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => SearchRoute(title: "Search")));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          SearchRoute(title: _foodSearchTitle)));
             },
           ),
           ListTile(
             leading: Icon(Icons.group),
-            title: Text('Food Groups'),
+            title: Text(_foodGroupTitle),
             onTap: () {
               Navigator.pop(context);
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => FoodGroupRoute(title: "Food Groups")));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          FoodGroupRoute(title: _foodGroupTitle)));
             },
           ),
           ListTile(
             leading: Icon(Icons.settings),
-            title: Text('Settings'),
+            title: Text(_settingsTitle),
             onTap: () {
               Navigator.pop(context);
-              Navigator.push(                  context,                  MaterialPageRoute(
-                      builder: (context) => SettingsRoute(title: "Settings")));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          SettingsRoute(title: _settingsTitle)));
             },
           ),
           ListTile(
             leading: Icon(Icons.info),
-            title: Text('About'),
+            title: Text(_aboutTitle),
             onTap: () {
               Navigator.pop(context);
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => AboutRoute(title: "Settings")));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => AboutRoute(title: _aboutTitle)));
             },
           ),
         ],

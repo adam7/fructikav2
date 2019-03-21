@@ -9,9 +9,17 @@ class SettingsRoute extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(title)),
-      body: Center(child: Text('Settings Page!')),
-      drawer: AppDrawer()
-    );
+        appBar: AppBar(title: Text(title)),
+        body: Column(
+          children: <Widget>[
+            SwitchListTile(
+              title: Text("Show unknown frcutose"),
+              value: false,
+              onChanged: (bool value) {},
+            ),
+            Slider(label:"Fructose warning level", value: 10, min: 1, max: 30, onChanged: (double value) { },)
+          ],
+        ),
+        drawer: AppDrawer());
   }
 }

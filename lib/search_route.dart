@@ -27,7 +27,6 @@ class SearchRoute extends StatelessWidget {
         appBar: AppBar(title: Text(title)),
         body: Column(children: [
           TextField(
-            autofocus: true,
             decoration: InputDecoration(
               prefixIcon: Icon(Icons.search),
               hintText: "Search",

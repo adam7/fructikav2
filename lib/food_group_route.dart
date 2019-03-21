@@ -41,7 +41,7 @@ class FoodGroupRoute extends StatelessWidget {
 }
 
 class FoodGroupCard extends StatefulWidget {
-  FoodGroup foodGroup;
+  final FoodGroup foodGroup;
 
   FoodGroupCard({Key key, @required this.foodGroup}) :super(key:key);
 

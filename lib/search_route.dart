@@ -1,8 +1,11 @@
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:fructika/app_drawer.dart';
+import 'package:fructika/database.dart';
 import 'package:fructika/food_route.dart';
+import 'package:fructika/models/food.dart';
 import 'package:material_search/material_search.dart';
+import 'dart:math' as math;
 
 const _list = const [
   'Igor Minar',
@@ -16,45 +19,119 @@ const _list = const [
   'Daniel Nadasi',
 ];
 
-class SearchRoute extends StatelessWidget {
+class SearchRoute extends StatefulWidget {
   final String title;
 
   SearchRoute({Key key, this.title}) : super(key: key);
 
   @override
+  State<StatefulWidget> createState() => SearchRouteState();
+}
+
+class SearchRouteState extends State<SearchRoute> {
+  final _biggerFont = const TextStyle(fontSize: 18.0);
+  final TextEditingController _search = new TextEditingController();
+
+  // data for testing
+  List<Food> testFoods = [
+    Food(
+        description: "Raouf",
+        foodGroup: "Rahiche",
+        foodGroupImage: "",
+        favourite: false),
+    Food(
+        description: "Zaki",
+        foodGroup: "oun",
+        foodGroupImage: "",
+        favourite: false),
+    Food(
+        description: "oussama",
+        foodGroup: "ali",
+        foodGroupImage: "",
+        favourite: false),
+  ];
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text(title)),
-        body: Column(children: [
-          TextField(
-            decoration: InputDecoration(
+        appBar: AppBar(
+            title: TextField(
+          controller: _search,
+          decoration: InputDecoration(
               prefixIcon: Icon(Icons.search),
-              hintText: "Search",
-
-            ),
-            onChanged: (String search){
-              // do some autocomplete shiz
-            },
-            onSubmitted: (String searchText){
-              // do some searchy shiz
-            },
-            // onChanged:
-          ), 
-          Expanded(child:RandomWords())
-        ]),
+              hintText: 'Search',
+              suffixIcon: Icon(Icons.search)),
+        )),
+        body: FutureBuilder<List<Food>>(
+          future: DBProvider.db.getAllFoods(),
+          builder: (BuildContext context, AsyncSnapshot<List<Food>> snapshot) {
+            if (snapshot.hasData) {
+              return ListView.builder(
+                itemCount: snapshot.data.length,
+                itemBuilder: (BuildContext context, int index) {
+                  Food item = snapshot.data[index];
+                  return Dismissible(
+                      key: UniqueKey(),
+                      background: Container(color: Colors.red),
+                      onDismissed: (direction) {
+                        DBProvider.db.deleteFood(item.id);
+                      },
+                      child: ListTile(
+                        leading: CircleAvatar(
+                            backgroundImage:
+                                Image.asset('images/group_271121.jpg').image),
+                        title: Text(
+                          item.description,
+                          style: _biggerFont,
+                        ),
+                        trailing: IconButton(
+                          icon: Icon(
+                            // Add the lines from here...
+                            item.favourite
+                                ? Icons.favorite
+                                : Icons.favorite_border,
+                            color: item.favourite ? Colors.red : null,
+                          ),
+                          onPressed: () {
+                            DBProvider.db.toggleFavourite(item);
+                            setState(() {});
+                          },
+                        ),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => FoodRoute()));
+                        },
+                      ));
+                },
+              );
+            } else {
+              return Center(child: CircularProgressIndicator());
+            }
+          },
+        ),
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add),
+          onPressed: () async {
+            Food rnd = testFoods[math.Random().nextInt(testFoods.length)];
+            await DBProvider.db.newFood(rnd);
+            setState(() {});
+          },
+        ),
         drawer: AppDrawer());
   }
 }
 
-class RandomWords extends StatefulWidget {
+class FoodsWidget extends StatefulWidget {
   @override
-  RandomWordsState createState() => new RandomWordsState();
+  FoodsWidgetState createState() => new FoodsWidgetState();
 }
 
-class RandomWordsState extends State<RandomWords> {
+class FoodsWidgetState extends State<FoodsWidget> {
   final _suggestions = <WordPair>[];
   final _biggerFont = const TextStyle(fontSize: 18.0);
-  final _saved = Set<WordPair>();
+  final _saved = Set<Food>();
 
   Widget _buildSuggestions() {
     return ListView.builder(
@@ -107,3 +184,6 @@ class RandomWordsState extends State<RandomWords> {
   }
 }
 
+class FoodListTile extends ListTile {
+  _build() {}
+}

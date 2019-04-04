@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:fructika/models/food.dart';
+import 'package:fructika/models/food_group.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -22,30 +23,76 @@ class DBProvider {
 
   initDB() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    String path = join(documentsDirectory.path, "FoodDB.db");
+    String path = join(documentsDirectory.path, "FoodsDB.db");
     return await openDatabase(path, version: 1, onOpen: (db) {},
         onCreate: (Database db, int version) async {
-      await db.execute("CREATE TABLE Food ("
-          "id INTEGER PRIMARY KEY,"
-          "description TEXT,"
-          "food_group TEXT,"
-          "food_group_image TEXT,"
-          "favourite BIT"
-          ")");
+      await createFoodTable(db);
+      await createFoodGroupTable(db);
+      await populateFoodGroupTable(db);
     });
+  }
+
+  createFoodTable(Database db) async {
+    await db.execute("CREATE TABLE Food ("
+        "id INTEGER PRIMARY KEY,"
+        "description TEXT,"
+        "food_group TEXT,"
+        "food_group_image TEXT,"
+        "favourite BIT"
+        ")");
+  }
+
+  createFoodGroupTable(Database db) async {
+    await db.execute("CREATE TABLE FoodGroup ("
+        "id INTEGER PRIMARY KEY,"
+        "name TEXT,"
+        "image TEXT,"
+        "enabled BIT"
+        ")");
+  }
+
+  populateFoodGroupTable(Database db) async {
+    final batch = db.batch();
+
+    for (var foodGroup in foodGroups) {
+      batch.insert('FoodGroup', {
+        "id": foodGroup.id,
+        "name": foodGroup.name,
+        "image": foodGroup.image,
+        "enabled": foodGroup.enabled ? 1 : 0
+      });
+    }
+
+    await batch.commit(noResult: true);
+  }
+
+  newFoodGroup(FoodGroup foodGroup) async {
+    final db = await database;
+
+    return await db.rawInsert(
+        "INSERT Into FoodGroup (id,name,image,enabled)"
+        " VALUES (?,?,?,?)",
+        [foodGroup.id, foodGroup.name, foodGroup.image, foodGroup.enabled]);
   }
 
   newFood(Food food) async {
     final db = await database;
+
     //get the biggest id in the table
     var table = await db.rawQuery("SELECT MAX(id)+1 as id FROM Food");
     int id = table.first["id"];
+
     //insert to the table using the new id
-    var raw = await db.rawInsert(
+    return await db.rawInsert(
         "INSERT Into Food (id,description,food_group,food_group_image,favourite)"
         " VALUES (?,?,?,?,?)",
-        [id, food.description, food.foodGroup, food.foodGroupImage, food.favourite]);
-    return raw;
+        [
+          id,
+          food.description,
+          food.foodGroup,
+          food.foodGroupImage,
+          food.favourite
+        ]);
   }
 
   toggleFavourite(Food client) async {
@@ -63,8 +110,8 @@ class DBProvider {
 
   updateFood(Food food) async {
     final db = await database;
-    var res = await db.update("Food", food.toMap(),
-        where: "id = ?", whereArgs: [food.id]);
+    var res = await db
+        .update("Food", food.toMap(), where: "id = ?", whereArgs: [food.id]);
     return res;
   }
 
@@ -79,7 +126,8 @@ class DBProvider {
 
     print("works");
     // var res = await db.rawQuery("SELECT * FROM Food WHERE blocked=1");
-    var result = await db.query("Food", where: "favourite = ? ", whereArgs: [1]);
+    var result =
+        await db.query("Food", where: "favourite = ? ", whereArgs: [1]);
 
     List<Food> list =
         result.isNotEmpty ? result.map((c) => Food.fromMap(c)).toList() : [];
@@ -91,6 +139,14 @@ class DBProvider {
     var result = await db.query("Food");
     List<Food> list =
         result.isNotEmpty ? result.map((c) => Food.fromMap(c)).toList() : [];
+    return list;
+  }
+
+  Future<List<FoodGroup>> getAllFoodGroups() async {
+    final db = await database;
+    var result = await db.query("FoodGroup");
+    List<FoodGroup> list =
+        result.isNotEmpty ? result.map((c) => FoodGroup.fromMap(c)).toList() : [];
     return list;
   }
 

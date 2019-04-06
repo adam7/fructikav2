@@ -29,16 +29,19 @@ class DBProvider {
       await createFoodTable(db);
       await createFoodGroupTable(db);
       await populateFoodGroupTable(db);
+      await populateFoodTable(db);
     });
   }
 
   createFoodTable(Database db) async {
-    await db.execute("CREATE TABLE Food ("
-        "id INTEGER PRIMARY KEY,"
+    await db.execute("CREATE VIRTUAL TABLE Food using fts4("
         "description TEXT,"
         "food_group TEXT,"
         "food_group_image TEXT,"
-        "favourite BIT"
+        "favourite BIT,"
+        "notindexed=food_group,"
+        "notindexed=food_group_image,"
+        "notindexed=favourite"
         ")");
   }
 
@@ -49,6 +52,24 @@ class DBProvider {
         "image TEXT,"
         "enabled BIT"
         ")");
+  }
+
+  populateFoodTable(Database db) async {
+    final batch = db.batch();
+
+    for (var food in foods) {
+      batch.rawInsert(
+        "INSERT Into Food (description,food_group,food_group_image,favourite)"
+        " VALUES (?,?,?,?)",
+        [
+          food.description,
+          food.foodGroup,
+          food.foodGroupImage,
+          food.favourite
+        ]);
+    }
+
+    await batch.commit(noResult: true);
   }
 
   populateFoodGroupTable(Database db) async {
@@ -78,16 +99,10 @@ class DBProvider {
   newFood(Food food) async {
     final db = await database;
 
-    //get the biggest id in the table
-    var table = await db.rawQuery("SELECT MAX(id)+1 as id FROM Food");
-    int id = table.first["id"];
-
-    //insert to the table using the new id
     return await db.rawInsert(
-        "INSERT Into Food (id,description,food_group,food_group_image,favourite)"
-        " VALUES (?,?,?,?,?)",
+        "INSERT Into Food (description,food_group,food_group_image,favourite)"
+        " VALUES (?,?,?,?)",
         [
-          id,
           food.description,
           food.foodGroup,
           food.foodGroupImage,
@@ -95,29 +110,32 @@ class DBProvider {
         ]);
   }
 
-  toggleFavourite(Food client) async {
+  toggleFavourite(Food food) async {
     final db = await database;
-    Food blocked = Food(
-        id: client.id,
-        description: client.description,
-        foodGroup: client.foodGroup,
-        foodGroupImage: client.foodGroupImage,
-        favourite: !client.favourite);
-    var res = await db.update("Food", blocked.toMap(),
-        where: "id = ?", whereArgs: [client.id]);
-    return res;
+
+    Food toggled = Food(
+        description: food.description,
+        foodGroup: food.foodGroup,
+        foodGroupImage: food.foodGroupImage,
+        favourite: !food.favourite);
+
+    var result = await db.update("Food", toggled.toMap(),
+        where: "description = ?", whereArgs: [food.description]);
+
+    return result;
   }
 
   updateFood(Food food) async {
     final db = await database;
-    var res = await db
-        .update("Food", food.toMap(), where: "id = ?", whereArgs: [food.id]);
+    var res = await db.update("Food", food.toMap(),
+        where: "description = ?", whereArgs: [food.description]);
     return res;
   }
 
-  getFood(int id) async {
+  getFood(String description) async {
     final db = await database;
-    var result = await db.query("Food", where: "id = ?", whereArgs: [id]);
+    var result = await db
+        .query("Food", where: "description = ?", whereArgs: [description]);
     return result.isNotEmpty ? Food.fromMap(result.first) : null;
   }
 
@@ -134,6 +152,18 @@ class DBProvider {
     return list;
   }
 
+  Future<List<Food>> searchFoods(String searchText) async {
+    final db = await database;
+
+    var result =
+        await db.query("Food", where: "description MATCH ? ", whereArgs: [1]);
+
+    List<Food> list =
+        result.isNotEmpty ? result.map((c) => Food.fromMap(c)).toList() : [];
+
+    return list;
+  }
+
   Future<List<Food>> getAllFoods() async {
     final db = await database;
     var result = await db.query("Food");
@@ -145,8 +175,9 @@ class DBProvider {
   Future<List<FoodGroup>> getAllFoodGroups() async {
     final db = await database;
     var result = await db.query("FoodGroup");
-    List<FoodGroup> list =
-        result.isNotEmpty ? result.map((c) => FoodGroup.fromMap(c)).toList() : [];
+    List<FoodGroup> list = result.isNotEmpty
+        ? result.map((c) => FoodGroup.fromMap(c)).toList()
+        : [];
     return list;
   }
 
@@ -159,4 +190,5 @@ class DBProvider {
     final db = await database;
     db.rawDelete("Delete * from Food");
   }
+
 }

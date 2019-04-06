@@ -32,24 +32,7 @@ class SearchRouteState extends State<SearchRoute> {
   final _biggerFont = const TextStyle(fontSize: 18.0);
   final TextEditingController _search = new TextEditingController();
 
-  // data for testing
-  List<Food> testFoods = [
-    Food(
-        description: "Raouf",
-        foodGroup: "Rahiche",
-        foodGroupImage: "",
-        favourite: false),
-    Food(
-        description: "Zaki",
-        foodGroup: "oun",
-        foodGroupImage: "",
-        favourite: false),
-    Food(
-        description: "oussama",
-        foodGroup: "ali",
-        foodGroupImage: "",
-        favourite: false),
-  ];
+  List<Food> foods = List<Food>();
 
   @override
   Widget build(BuildContext context) {
@@ -57,66 +40,106 @@ class SearchRouteState extends State<SearchRoute> {
         appBar: AppBar(
             title: TextField(
           controller: _search,
+          onSubmitted: (text) {
+            if (text.isEmpty) {
+              foods = List<Food>();
+              setState(() {
+                
+              });
+            } else {
+              DBProvider.db.getAllFoods().then((result) {
+                foods = result;
+                setState(() {});
+              });
+            }
+          },
           decoration: InputDecoration(
               prefixIcon: Icon(Icons.search),
               hintText: 'Search',
               suffixIcon: Icon(Icons.search)),
         )),
-        body: FutureBuilder<List<Food>>(
-          future: DBProvider.db.getAllFoods(),
-          builder: (BuildContext context, AsyncSnapshot<List<Food>> snapshot) {
-            if (snapshot.hasData) {
-              return ListView.builder(
-                itemCount: snapshot.data.length,
-                itemBuilder: (BuildContext context, int index) {
-                  Food item = snapshot.data[index];
-                  return Dismissible(
-                      key: UniqueKey(),
-                      background: Container(color: Colors.red),
-                      onDismissed: (direction) {
-                        DBProvider.db.deleteFood(item.id);
-                      },
-                      child: ListTile(
-                        leading: CircleAvatar(
-                            backgroundImage:
-                                Image.asset('images/group_271121.jpg').image),
-                        title: Text(
-                          item.description,
-                          style: _biggerFont,
-                        ),
-                        trailing: IconButton(
-                          icon: Icon(
-                            // Add the lines from here...
-                            item.favourite
-                                ? Icons.favorite
-                                : Icons.favorite_border,
-                            color: item.favourite ? Colors.red : null,
-                          ),
-                          onPressed: () {
-                            DBProvider.db.toggleFavourite(item);
-                            setState(() {});
-                          },
-                        ),
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => FoodRoute()));
-                        },
-                      ));
-                },
-              );
-            } else {
-              return Center(child: CircularProgressIndicator());
-            }
-          },
-        ),
+        body: ListView.separated(
+            itemCount: foods.length,
+            separatorBuilder: (BuildContext context, int index) => Divider(),
+            itemBuilder: (BuildContext context, int index) {
+              return ListTile(
+                  leading: CircleAvatar(
+                      backgroundImage:
+                          Image.asset('images/group_271121.jpg').image),
+                  title: Text(
+                    foods[index].description,
+                    style: _biggerFont,
+                  ),
+                  trailing: IconButton(
+                    icon: Icon(
+                      // Add the lines from here...
+                      foods[index].favourite
+                          ? Icons.favorite
+                          : Icons.favorite_border,
+                      color: foods[index].favourite ? Colors.red : null,
+                    ),
+                    onPressed: () {
+                      DBProvider.db.toggleFavourite(foods[index]);
+                      setState(() {});
+                    },
+                  ));
+            }),
+
+        // FutureBuilder<List<Food>>(
+        //   future: DBProvider.db.getAllFoods(),
+        //   builder: (BuildContext context, AsyncSnapshot<List<Food>> snapshot) {
+        //     if (snapshot.hasData) {
+        //       return ListView.builder(
+        //         itemCount: snapshot.data.length,
+        //         itemBuilder: (BuildContext context, int index) {
+        //           Food item = snapshot.data[index];
+        //           return Dismissible(
+        //               key: UniqueKey(),
+        //               background: Container(color: Colors.red),
+        //               onDismissed: (direction) {
+        //                 DBProvider.db.deleteFood(item.id);
+        //               },
+        //               child: ListTile(
+        //                 leading: CircleAvatar(
+        //                     backgroundImage:
+        //                         Image.asset('images/group_271121.jpg').image),
+        //                 title: Text(
+        //                   item.description,
+        //                   style: _biggerFont,
+        //                 ),
+        //                 trailing: IconButton(
+        //                   icon: Icon(
+        //                     // Add the lines from here...
+        //                     item.favourite
+        //                         ? Icons.favorite
+        //                         : Icons.favorite_border,
+        //                     color: item.favourite ? Colors.red : null,
+        //                   ),
+        //                   onPressed: () {
+        //                     DBProvider.db.toggleFavourite(item);
+        //                     setState(() {});
+        //                   },
+        //                 ),
+        //                 onTap: () {
+        //                   Navigator.push(
+        //                       context,
+        //                       MaterialPageRoute(
+        //                           builder: (context) => FoodRoute()));
+        //                 },
+        //               ));
+        //         },
+        //       );
+        //     } else {
+        //       return Center(child: CircularProgressIndicator());
+        //     }
+        //   },
+        // ),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
           onPressed: () async {
-            Food rnd = testFoods[math.Random().nextInt(testFoods.length)];
-            await DBProvider.db.newFood(rnd);
-            setState(() {});
+            // Food rnd = testFoods[math.Random().nextInt(testFoods.length)];
+            // await DBProvider.db.newFood(rnd);
+            // setState(() {});
           },
         ),
         drawer: AppDrawer());

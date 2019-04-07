@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/services.dart';
 import 'package:fructika/models/food.dart';
 import 'package:fructika/models/food_group.dart';
 import 'package:path/path.dart';
@@ -59,20 +61,28 @@ class DBProvider {
 
     for (var food in foods) {
       batch.rawInsert(
-        "INSERT Into Food (description,food_group,food_group_image,favourite)"
-        " VALUES (?,?,?,?)",
-        [
-          food.description,
-          food.foodGroup,
-          food.foodGroupImage,
-          food.favourite
-        ]);
+          "INSERT Into Food (description,food_group,food_group_image,favourite)"
+          " VALUES (?,?,?,?)",
+          [
+            food.description,
+            food.foodGroup,
+            food.foodGroupImage,
+            food.favourite
+          ]);
     }
 
     await batch.commit(noResult: true);
   }
 
   populateFoodGroupTable(Database db) async {
+    List<FoodGroup> foodGroups = List<FoodGroup>();
+
+    final foodGroupsJSON = await rootBundle.loadString('json/food_groups.json');
+
+    for (final foodGroupJSON in json.decode(foodGroupsJSON)) {
+      foodGroups.add(FoodGroup.fromMap(foodGroupJSON));
+    }
+
     final batch = db.batch();
 
     for (var foodGroup in foodGroups) {
@@ -190,5 +200,4 @@ class DBProvider {
     final db = await database;
     db.rawDelete("Delete * from Food");
   }
-
 }

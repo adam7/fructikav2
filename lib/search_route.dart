@@ -4,20 +4,6 @@ import 'package:fructika/app_drawer.dart';
 import 'package:fructika/database.dart';
 import 'package:fructika/food_route.dart';
 import 'package:fructika/models/food.dart';
-import 'package:material_search/material_search.dart';
-import 'dart:math' as math;
-
-const _list = const [
-  'Igor Minar',
-  'Brad Green',
-  'Dave Geddes',
-  'Naomi Black',
-  'Greg Weber',
-  'Dean Sofer',
-  'Wes Alvaro',
-  'John Scott',
-  'Daniel Nadasi',
-];
 
 class SearchRoute extends StatefulWidget {
   final String title;
@@ -84,56 +70,6 @@ class SearchRouteState extends State<SearchRoute> {
                     },
                   ));
             }),
-
-        // FutureBuilder<List<Food>>(
-        //   future: DBProvider.db.getAllFoods(),
-        //   builder: (BuildContext context, AsyncSnapshot<List<Food>> snapshot) {
-        //     if (snapshot.hasData) {
-        //       return ListView.builder(
-        //         itemCount: snapshot.data.length,
-        //         itemBuilder: (BuildContext context, int index) {
-        //           Food item = snapshot.data[index];
-        //           return Dismissible(
-        //               key: UniqueKey(),
-        //               background: Container(color: Colors.red),
-        //               onDismissed: (direction) {
-        //                 DBProvider.db.deleteFood(item.id);
-        //               },
-        //               child: ListTile(
-        //                 leading: CircleAvatar(
-        //                     backgroundImage:
-        //                         Image.asset('images/group_271121.jpg').image),
-        //                 title: Text(
-        //                   item.description,
-        //                   style: _biggerFont,
-        //                 ),
-        //                 trailing: IconButton(
-        //                   icon: Icon(
-        //                     // Add the lines from here...
-        //                     item.favourite
-        //                         ? Icons.favorite
-        //                         : Icons.favorite_border,
-        //                     color: item.favourite ? Colors.red : null,
-        //                   ),
-        //                   onPressed: () {
-        //                     DBProvider.db.toggleFavourite(item);
-        //                     setState(() {});
-        //                   },
-        //                 ),
-        //                 onTap: () {
-        //                   Navigator.push(
-        //                       context,
-        //                       MaterialPageRoute(
-        //                           builder: (context) => FoodRoute()));
-        //                 },
-        //               ));
-        //         },
-        //       );
-        //     } else {
-        //       return Center(child: CircularProgressIndicator());
-        //     }
-        //   },
-        // ),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
           onPressed: () async {
@@ -207,6 +143,3 @@ class FoodsWidgetState extends State<FoodsWidget> {
   }
 }
 
-class FoodListTile extends ListTile {
-  _build() {}
-}

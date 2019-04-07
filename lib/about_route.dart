@@ -77,7 +77,7 @@ List<Widget> _buildContributorListTiles() {
       title: Text(contributor),
       trailing: IconButton(
           icon: Icon(Icons.open_in_browser),
-          onPressed: () => launch("https://unsplash.com/${contributor}")),
+          onPressed: () => launch("https://unsplash.com/$contributor")),
     ));
   }
 

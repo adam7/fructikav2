@@ -29,9 +29,7 @@ class SearchRouteState extends State<SearchRoute> {
           onSubmitted: (text) {
             if (text.isEmpty) {
               foods = List<Food>();
-              setState(() {
-                
-              });
+              setState(() {});
             } else {
               DBProvider.db.searchFoods(text).then((result) {
                 foods = result;
@@ -49,9 +47,13 @@ class SearchRouteState extends State<SearchRoute> {
             separatorBuilder: (BuildContext context, int index) => Divider(),
             itemBuilder: (BuildContext context, int index) {
               return ListTile(
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => FoodRoute(food: foods[index])));
+                  },
                   leading: CircleAvatar(
                       backgroundImage:
-                          Image.asset('images/group_271121.jpg').image),
+                          Image.asset(foods[index].foodGroupImage).image),
                   title: Text(
                     foods[index].description,
                     style: _biggerFont,
@@ -142,4 +144,3 @@ class FoodsWidgetState extends State<FoodsWidget> {
     return _buildSuggestions();
   }
 }
-

@@ -33,7 +33,7 @@ class SearchRouteState extends State<SearchRoute> {
                 
               });
             } else {
-              DBProvider.db.getAllFoods().then((result) {
+              DBProvider.db.searchFoods(text).then((result) {
                 foods = result;
                 setState(() {});
               });

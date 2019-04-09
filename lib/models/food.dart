@@ -11,7 +11,7 @@ String foodToJson(Food data) {
 }
 
 class Food {
-  int id;
+  String id;
   String description;
   String foodGroupImage;
   String foodGroup;

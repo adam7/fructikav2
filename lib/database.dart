@@ -10,9 +10,9 @@ import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DBProvider {
-  DBProvider._();
-
   static final DBProvider db = DBProvider._();
+
+  DBProvider._();
 
   Database _database;
 
@@ -25,7 +25,7 @@ class DBProvider {
 
   initDB() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    String path = join(documentsDirectory.path, "FoodsDB.db");
+    String path = join(documentsDirectory.path, "FoodDB.db");
     return await openDatabase(path, version: 1, onOpen: (db) {},
         onCreate: (Database db, int version) async {
       await createFoodTable(db);
@@ -37,6 +37,7 @@ class DBProvider {
 
   createFoodTable(Database db) async {
     await db.execute("CREATE VIRTUAL TABLE Food using fts4("
+        "id TEXT PRIMARY KEY,"
         "description TEXT,"
         "food_group TEXT,"
         "food_group_image TEXT,"
@@ -57,16 +58,24 @@ class DBProvider {
   }
 
   populateFoodTable(Database db) async {
+    List<Food> fooods = List<Food>();
+    final foodsJSON = await rootBundle.loadString('json/foods.json');
+
+    for (final foodJSON in json.decode(foodsJSON)) {
+      fooods.add(Food.fromMap(foodJSON));
+    }
+
     final batch = db.batch();
 
-    for (var food in foods) {
+    for (var food in fooods) {
       batch.rawInsert(
-          "INSERT Into Food (description,food_group,food_group_image,favourite)"
-          " VALUES (?,?,?,?)",
+          "INSERT Into Food (id,description,food_group,food_group_image,favourite)"
+          " VALUES (?,?,?,?,?)",
           [
+            food.id,
             food.description,
             food.foodGroup,
-            food.foodGroupImage,
+            "images/${food.foodGroupImage}.jpg" ,
             food.favourite
           ]);
     }
@@ -110,9 +119,10 @@ class DBProvider {
     final db = await database;
 
     return await db.rawInsert(
-        "INSERT Into Food (description,food_group,food_group_image,favourite)"
-        " VALUES (?,?,?,?)",
+        "INSERT Into Food (id,description,food_group,food_group_image,favourite)"
+        " VALUES (?,?,?,?,?)",
         [
+          food.id,
           food.description,
           food.foodGroup,
           food.foodGroupImage,
@@ -165,8 +175,8 @@ class DBProvider {
   Future<List<Food>> searchFoods(String searchText) async {
     final db = await database;
 
-    var result =
-        await db.query("Food", where: "description MATCH ? ", whereArgs: [1]);
+    var result = 
+         await db.query("Food", where: "description MATCH ? ", whereArgs: [searchText + "*"]);
 
     List<Food> list =
         result.isNotEmpty ? result.map((c) => Food.fromMap(c)).toList() : [];

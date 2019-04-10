@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fructika/about_route.dart';
+import 'package:fructika/favourites_route.dart';
 import 'package:fructika/food_group_route.dart';
 import 'package:fructika/search_route.dart';
 import 'package:fructika/settings_route.dart';
@@ -9,6 +10,7 @@ class AppDrawer extends StatelessWidget {
   final String _foodSearchTitle = "Food Search";
   final String _settingsTitle = "Settings";
   final String _aboutTitle = "About";
+  final String _favouriteTitle = "Favourites";
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +34,18 @@ class AppDrawer extends StatelessWidget {
                   MaterialPageRoute(
                       builder: (context) =>
                           SearchRoute(title: _foodSearchTitle)));
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.favorite),
+            title: Text(_favouriteTitle),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          FavouritesRoute(title: _favouriteTitle)));
             },
           ),
           ListTile(

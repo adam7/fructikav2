@@ -75,7 +75,7 @@ class DBProvider {
             food.id,
             food.description,
             food.foodGroup,
-            "images/${food.foodGroupImage}.jpg" ,
+            "images/${food.foodGroupImage}.jpg",
             food.favourite
           ]);
     }
@@ -154,29 +154,26 @@ class DBProvider {
 
   getFood(String description) async {
     final db = await database;
+    
     var result = await db
         .query("Food", where: "description = ?", whereArgs: [description]);
+
     return result.isNotEmpty ? Food.fromMap(result.first) : null;
   }
 
   Future<List<Food>> getFavouriteFoods() async {
     final db = await database;
 
-    print("works");
-    // var res = await db.rawQuery("SELECT * FROM Food WHERE blocked=1");
-    var result =
-        await db.query("Food", where: "favourite = ? ", whereArgs: [1]);
+    var result = await db.query("Food", where: "favourite = 1");
 
-    List<Food> list =
-        result.isNotEmpty ? result.map((c) => Food.fromMap(c)).toList() : [];
-    return list;
+    return result.isNotEmpty ? result.map((f) => Food.fromMap(f)).toList() : [];
   }
 
   Future<List<Food>> searchFoods(String searchText) async {
     final db = await database;
 
-    var result = 
-         await db.query("Food", where: "description MATCH ? ", whereArgs: [searchText + "*"]);
+    var result = await db.query("Food",
+        where: "description MATCH ? ", whereArgs: [searchText + "*"]);
 
     List<Food> list =
         result.isNotEmpty ? result.map((c) => Food.fromMap(c)).toList() : [];

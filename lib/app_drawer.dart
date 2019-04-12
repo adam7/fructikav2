@@ -24,67 +24,30 @@ class AppDrawer extends StatelessWidget {
               color: Colors.blue,
             ),
           ),
-          ListTile(
-            leading: Icon(Icons.search),
-            title: Text(_foodSearchTitle),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          SearchRoute(title: _foodSearchTitle)));
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.favorite),
-            title: Text(_favouriteTitle),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          FavouritesRoute(title: _favouriteTitle)));
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.group),
-            title: Text(_foodGroupTitle),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          FoodGroupRoute(title: _foodGroupTitle)));
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.settings),
-            title: Text(_settingsTitle),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          SettingsRoute(title: _settingsTitle)));
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.info),
-            title: Text(_aboutTitle),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => AboutRoute(title: _aboutTitle)));
-            },
-          ),
+          _buildListTile(context, SearchRoute(title: _foodSearchTitle),
+              _foodSearchTitle, Icons.search),
+          _buildListTile(context, FavouritesRoute(title: _favouriteTitle),
+              _favouriteTitle, Icons.favorite),
+          _buildListTile(context, FoodGroupRoute(title: _foodGroupTitle),
+              _foodGroupTitle, Icons.group),
+          _buildListTile(context, SettingsRoute(title: _settingsTitle),
+              _settingsTitle, Icons.settings),
+          _buildListTile(
+              context, AboutRoute(title: _aboutTitle), _aboutTitle, Icons.info)
         ],
       ),
     );
+  }
+
+  ListTile _buildListTile(
+      BuildContext context, Widget widget, String title, IconData iconData) {
+    return ListTile(
+        leading: Icon(iconData),
+        title: Text(title),
+        onTap: () {
+          Navigator.pop(context);
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => widget));
+        });
   }
 }

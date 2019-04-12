@@ -39,14 +39,14 @@ class FoodListState extends State<FoodList> {
         ),
         trailing: IconButton(
           icon: Icon(
-            // Add the lines from here...
             food.favourite ? Icons.favorite : Icons.favorite_border,
             color: food.favourite ? Colors.red : null,
           ),
           onPressed: () {
             setState(() {
-              DBProvider.db.toggleFavourite(food);
+              food.favourite = !food.favourite;
             });
+            DBProvider.db.updateFood(food);
           },
         ));
   }

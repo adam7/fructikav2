@@ -27,12 +27,14 @@ class SearchRouteState extends State<SearchRoute> {
               controller: _search,
               onSubmitted: (text) {
                 if (text.isEmpty) {
-                  foods = List<Food>();
-                  setState(() {});
+                  setState(() {
+                    foods = List<Food>();
+                  });
                 } else {
                   DBProvider.db.searchFoods(text).then((result) {
-                    foods = result;
-                    setState(() {});
+                    setState(() {
+                      foods = result;
+                    });
                   });
                 }
               },

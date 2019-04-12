@@ -13,7 +13,7 @@ class FavouritesRoute extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text("Search Foods")),
+        appBar: AppBar(title: Text(title)),
         body: FutureBuilder<List<Food>>(
           future: favouriteFoods,
           builder: (context, snapshot) {

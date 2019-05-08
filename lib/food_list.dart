@@ -32,7 +32,7 @@ class FoodListState extends State<FoodList> {
               MaterialPageRoute(builder: (context) => FoodRoute(food: food)));
         },
         leading: CircleAvatar(
-            backgroundImage: Image.asset(food.foodGroupImage).image),
+            backgroundImage: Image.asset(food.imagePath).image),
         title: Text(
           food.description,
           style: _biggerFont,

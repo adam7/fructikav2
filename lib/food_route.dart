@@ -15,18 +15,23 @@ class FoodRoute extends StatelessWidget {
       body: Column(
         children: [
           Image.asset(
-            food.foodGroupImage,
+            food.imagePath,
             width: 600,
             fit: BoxFit.cover,
           ),
           _buildTitleSection(food),
+          ListTile(
+            trailing:
+                CircleAvatar(child: Text(food.fructose?.toStringAsPrecision(1) ?? "?")),
+            title: Text('Fructose'),
+          ),
         ],
       ),
     );
   }
 }
 
-Container _buildTitleSection(Food food)  {
+Container _buildTitleSection(Food food) {
   return Container(
     padding: const EdgeInsets.all(32),
     child: Row(

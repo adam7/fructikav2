@@ -23,6 +23,9 @@ dependencies:
   material_design_icons_flutter: ^3.2.3595
   path_provider: ^0.5.0+1
 
+  sqlite_rank: 
+    git: git://github.com/adam7/sqlite_rank.git
+
 dev_dependencies:
   mockito: ^4.0.0
   flutter_test:

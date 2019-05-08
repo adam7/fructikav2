@@ -8,6 +8,7 @@ import 'package:fructika/models/food_group.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:sqlite_rank/sqlite_rank.dart';
 
 class DBProvider {
   static final DBProvider db = DBProvider._();
@@ -29,22 +30,36 @@ class DBProvider {
     return await openDatabase(path, version: 1, onOpen: (db) {},
         onCreate: (Database db, int version) async {
       await createFoodTable(db);
+      await createFoodSearchTable(db);
       await createFoodGroupTable(db);
       await populateFoodGroupTable(db);
-      await populateFoodTable(db);
+      await populateFoods(db);
     });
   }
 
+  createFoodSearchTable(Database db) async {
+    await db.execute("CREATE VIRTUAL TABLE FoodSearch using fts4("
+        "id TEXT,"
+        "description TEXT,"
+        "notindexed=id"
+        ")");
+  }
+
   createFoodTable(Database db) async {
-    await db.execute("CREATE VIRTUAL TABLE Food using fts4("
+    await db.execute("CREATE TABLE Food ("
         "id TEXT PRIMARY KEY,"
         "description TEXT,"
         "food_group TEXT,"
         "food_group_image TEXT,"
-        "favourite BIT,"
-        "notindexed=food_group,"
-        "notindexed=food_group_image,"
-        "notindexed=favourite"
+        "protein REAL,"
+        "total_sugars REAL,"
+        "sucrose REAL,"
+        "glucose REAL,"
+        "fructose REAL,"
+        "lactose REAL,"
+        "maltose REAL,"
+        "dietaryFiber REAL,"
+        "favourite BIT"
         ")");
   }
 
@@ -57,26 +72,43 @@ class DBProvider {
         ")");
   }
 
-  populateFoodTable(Database db) async {
-    List<Food> fooods = List<Food>();
+  populateFoods(Database db) async {
+    List<Food> foods = List<Food>();
     final foodsJSON = await rootBundle.loadString('json/foods.json');
 
     for (final foodJSON in json.decode(foodsJSON)) {
-      fooods.add(Food.fromMap(foodJSON));
+      foods.add(Food.fromMap(foodJSON));
     }
 
     final batch = db.batch();
 
-    for (var food in fooods) {
+    for (var food in foods) {
       batch.rawInsert(
-          "INSERT Into Food (id,description,food_group,food_group_image,favourite)"
-          " VALUES (?,?,?,?,?)",
+          "INSERT Into Food (id, description, food_group, food_group_image, favourite,"
+          " protein, total_sugars, sucrose, glucose, fructose, lactose, maltose, dietaryFiber)"
+          " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
           [
             food.id,
             food.description,
             food.foodGroup,
-            "images/${food.foodGroupImage}.jpg",
-            food.favourite
+            food.foodGroupImage,
+            food.favourite,
+            food.protein,
+            food.totalSugars,
+            food.sucrose,
+            food.glucose,
+            food.fructose,
+            food.lactose,
+            food.maltose,
+            food.dietaryFiber
+          ]);
+
+      batch.rawInsert(
+          "INSERT Into FoodSearch (id,description)"
+          " VALUES (?,?)",
+          [
+            food.id,
+            food.description,
           ]);
     }
 
@@ -119,14 +151,23 @@ class DBProvider {
     final db = await database;
 
     return await db.rawInsert(
-        "INSERT Into Food (id,description,food_group,food_group_image,favourite)"
-        " VALUES (?,?,?,?,?)",
+        "INSERT Into Food (id, description, food_group, food_group_image, favourite,"
+        " protein, total_sugars, sucrose, glucose, fructose, lactose, maltose, dietaryFiber)"
+        " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
         [
           food.id,
           food.description,
           food.foodGroup,
           food.foodGroupImage,
-          food.favourite
+          food.favourite,
+          food.protein,
+          food.totalSugars,
+          food.sucrose,
+          food.glucose,
+          food.fructose,
+          food.lactose,
+          food.maltose,
+          food.dietaryFiber
         ]);
   }
 
@@ -154,7 +195,7 @@ class DBProvider {
 
   getFood(String description) async {
     final db = await database;
-    
+
     var result = await db
         .query("Food", where: "description = ?", whereArgs: [description]);
 
@@ -172,13 +213,23 @@ class DBProvider {
   Future<List<Food>> searchFoods(String searchText) async {
     final db = await database;
 
-    var result = await db.query("Food",
-        where: "description MATCH ? ", whereArgs: [searchText + "*"]);
+    var searchQuery =
+        "SELECT id, Food.description, Food.food_group, Food.food_group_image, matchinfo, Food.favourite"
+        " FROM Food JOIN (SELECT id, matchinfo(FoodSearch) as matchinfo FROM FoodSearch WHERE FoodSearch MATCH ?)"
+        " USING(id)";
 
-    List<Food> list =
-        result.isNotEmpty ? result.map((c) => Food.fromMap(c)).toList() : [];
+    // var rows = await db.rawQuery("SELECT id,description,food_group,food_group_image,favourite,matchinfo(Food) as matchinfo FROM Food WHERE Food MATCH ?", ["$searchText*"]);
+    var rows = await db.rawQuery(searchQuery, ["$searchText*"]);
 
-    return list;
+    return rows.isNotEmpty ? _mapAndSortFoods(rows) : [];
+  }
+
+  Future<List<Food>> _mapAndSortFoods(List<Map<String, dynamic>> rows) async {
+    var foods = rows.map((c) => Food.fromMap(c)).toList();
+
+    foods.sort((f1, f2) => rank(f1.matchinfo).compareTo(rank(f2.matchinfo)));
+
+    return foods;
   }
 
   Future<List<Food>> getAllFoods() async {
@@ -208,3 +259,11 @@ class DBProvider {
     db.rawDelete("Delete * from Food");
   }
 }
+
+// INSERT Into Food (id,description,food_group,food_group_image,favourite) VALUES ('one','banana','','',0);
+// INSERT Into Food (id,description,food_group,food_group_image,favourite) VALUES ('two','apple','','',0);
+
+// INSERT Into FoodSearch (id,description) VALUES ('one','banana');
+// INSERT Into FoodSearch (id,description) VALUES ('two','apple');
+
+// SELECT id, description, matchinfo(FoodSearch) as matchinfo FROM FoodSearch WHERE FoodSearch MATCH 'banana'

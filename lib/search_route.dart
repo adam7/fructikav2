@@ -38,6 +38,7 @@ class SearchRouteState extends State<SearchRoute> {
                   });
                 }
               },
+              textInputAction: TextInputAction.search,
               decoration: InputDecoration(
                   prefixIcon: Icon(Icons.search), hintText: 'Search')),
           Expanded(child: FoodList(foods: foods))

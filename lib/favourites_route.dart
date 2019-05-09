@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:fructika/app_drawer.dart';
-import 'package:fructika/database.dart';
+import 'database/database_provider.dart';
 import 'package:fructika/food_list.dart';
 import 'package:fructika/models/food.dart';
 
 class FavouritesRoute extends StatelessWidget {
   final String title;
-  final favouriteFoods = DBProvider.db.getFavouriteFoods();
+  final favouriteFoods = DatabaseProvider.db.getFavouriteFoods();
 
   FavouritesRoute({Key key, this.title}) : super(key: key);
 

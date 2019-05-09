@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:fructika/app_drawer.dart';
-import 'package:fructika/database.dart';
+import 'database/database_provider.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
-
 import 'package:fructika/models/food_group.dart';
 
 class FoodGroupRoute extends StatelessWidget {
   final String title;
-  final foodgroups = DBProvider.db.getAllFoodGroups();
+  final foodgroups = DatabaseProvider.db.getAllFoodGroups();
 
   FoodGroupRoute({Key key, this.title}) : super(key: key);
 
@@ -35,14 +34,13 @@ class FoodGroupRoute extends StatelessWidget {
     }
 
     return Swiper(
-          itemBuilder: (BuildContext context, int index) {
-            return FoodGroupCard(foodGroup: foodGroups[index]);
-          },
-          itemCount: foodGroups.length,
-          viewportFraction: 0.9,
-          scale: 0.9,
-          pagination: SwiperPagination.fraction      
-        );
+        itemBuilder: (BuildContext context, int index) {
+          return FoodGroupCard(foodGroup: foodGroups[index]);
+        },
+        itemCount: foodGroups.length,
+        viewportFraction: 0.9,
+        scale: 0.9,
+        pagination: SwiperPagination.fraction);
   }
 }
 
@@ -72,7 +70,10 @@ class _FoodGroupCardState extends State<FoodGroupCard> {
               subtitle: const Text('Enabled'),
               value: widget.foodGroup.enabled,
               onChanged: (bool value) {
+                setState(() {
                 widget.foodGroup.enabled = value;
+                });
+                DatabaseProvider.db.updateFoodGroup(widget.foodGroup);
               })
         ],
       ),

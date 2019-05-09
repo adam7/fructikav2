@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fructika/app_drawer.dart';
-import 'package:fructika/database.dart';
+import 'database/database_provider.dart';
 import 'package:fructika/food_list.dart';
 import 'package:fructika/models/food.dart';
 
@@ -31,7 +31,7 @@ class SearchRouteState extends State<SearchRoute> {
                     foods = List<Food>();
                   });
                 } else {
-                  DBProvider.db.searchFoods(text).then((result) {
+                  DatabaseProvider.db.searchFoods(text).then((result) {
                     setState(() {
                       foods = result;
                     });

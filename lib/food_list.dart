@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fructika/database.dart';
+import 'database/database_provider.dart';
 import 'package:fructika/food_route.dart';
 import 'package:fructika/models/food.dart';
 
@@ -46,7 +46,7 @@ class FoodListState extends State<FoodList> {
             setState(() {
               food.favourite = !food.favourite;
             });
-            DBProvider.db.updateFood(food);
+            DatabaseProvider.db.updateFood(food);
           },
         ));
   }

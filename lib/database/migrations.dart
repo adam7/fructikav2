@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:flutter/services.dart';
 import 'package:fructika/models/food.dart';
 import 'package:fructika/models/food_group.dart';
@@ -44,7 +43,7 @@ class Migrator {
         "fructose REAL,"
         "lactose REAL,"
         "maltose REAL,"
-        "dietaryFiber REAL,"
+        "dietary_fiber REAL,"
         "favourite BIT"
         ")");
   }
@@ -71,7 +70,7 @@ class Migrator {
     for (var food in foods) {
       batch.rawInsert(
           "INSERT Into Food (id, description, food_group, food_group_image, favourite,"
-          " protein, total_sugars, sucrose, glucose, fructose, lactose, maltose, dietaryFiber)"
+          " protein, total_sugars, sucrose, glucose, fructose, lactose, maltose, dietary_fiber)"
           " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
           [
             food.id,

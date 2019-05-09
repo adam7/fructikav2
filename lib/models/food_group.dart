@@ -1,15 +1,3 @@
-import 'dart:convert';
-
-FoodGroup foodGroupFromJson(String str) {
-  final jsonData = json.decode(str);
-  return FoodGroup.fromMap(jsonData);
-}
-
-String foodGroupToJson(FoodGroup data) {
-  final dyn = data.toMap();
-  return json.encode(dyn);
-}
-
 class FoodGroup {
   int id;
   bool enabled;
@@ -26,5 +14,5 @@ class FoodGroup {
       );
 
   Map<String, dynamic> toMap() =>
-      {"id": id, "enabled": enabled, "name": name, "image": image};
+      {"id": id, "enabled": enabled ? 1 : 0, "name": name, "image": image};
 }

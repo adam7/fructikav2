@@ -1,15 +1,4 @@
-import 'dart:convert';
 import 'dart:typed_data';
-
-Food foodFromJson(String str) {
-  final jsonData = json.decode(str);
-  return Food.fromMap(jsonData);
-}
-
-String foodToJson(Food data) {
-  final dyn = data.toMap();
-  return json.encode(dyn);
-}
 
 class Food {
   String id;

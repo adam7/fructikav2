@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fructika/food_list.dart';
-import 'package:fructika/models/food.dart';
+import 'test_utils.dart';
 
 void main() {
-  final imageName = "group_44723";
-  final favouriteFood =
-      Food(description: "Orange", favourite: true, foodGroupImage: imageName);
-  final unFavouriteFood =
-      Food(description: "Pear", favourite: false, foodGroupImage: imageName);
-
   testWidgets('FoodList', (WidgetTester tester) async {
     // Key so we can manipulate the scaffold
     final _scaffoldKey = GlobalKey<ScaffoldState>();

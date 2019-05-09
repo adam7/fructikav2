@@ -50,7 +50,7 @@ Container _buildTitleSection(Food food) {
                 ),
               ),
               Text(
-                food.description,
+                food.foodGroup,
                 style: TextStyle(
                   color: Colors.grey[500],
                 ),

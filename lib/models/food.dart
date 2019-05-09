@@ -70,7 +70,7 @@ class Food {
         "description": description,
         "food_group": foodGroup,
         "food_group_image": foodGroupImage,
-        "favourite": favourite,
+        "favourite": favourite ? 1 : 0,
         "protein": protein,
         "total_sugars": totalSugars,
         "sucrose": sucrose,
@@ -78,6 +78,6 @@ class Food {
         "fructose": fructose,
         "lactose": lactose,
         "maltose": maltose,
-        "dietaryFiber": dietaryFiber
+        "dietary_fiber": dietaryFiber
       };
 }

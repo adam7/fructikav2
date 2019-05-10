@@ -6,4 +6,4 @@ Built using [Flutter](https://flutter.dev/).
 
 [![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/60-percent-of-the-time-works-every-time.svg)](https://forthebadge.com)
 
-[![codecov](https://codecov.io/gh/adam7/fructikav2/branch/master/graph/badge.svg)](https://codecov.io/gh/adam7/fructikav2) :'/
+[![codecov](https://codecov.io/gh/adam7/fructikav2/branch/master/graph/badge.svg)](https://codecov.io/gh/adam7/fructikav2)

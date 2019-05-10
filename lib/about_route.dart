@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:fructika/app_drawer.dart';
+import 'package:fructika/titles.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class AboutRoute extends StatelessWidget {
-  final String title;
-
-  AboutRoute({Key key, this.title}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text(title)),
+        appBar: AppBar(title: Text(Titles.aboutTitle)),
         body: ListView(
           children: <Widget>[
             Image.asset(

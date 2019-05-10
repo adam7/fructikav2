@@ -6,11 +6,6 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        title: 'Fructika', home: SearchRoute(title: "Search"));
+    return MaterialApp(title: 'Fructika', home: SearchRoute());
   }
 }
-
-
-
-

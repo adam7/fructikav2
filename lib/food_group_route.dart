@@ -5,15 +5,12 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:fructika/models/food_group.dart';
 
 class FoodGroupRoute extends StatelessWidget {
-  final String title;
   final foodgroups = DatabaseProvider.db.getAllFoodGroups();
-
-  FoodGroupRoute({Key key, this.title}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text(title)),
+        appBar: AppBar(title: Text("Food Groups")),
         body: FutureBuilder<List<FoodGroup>>(
           future: foodgroups,
           builder: (context, snapshot) {

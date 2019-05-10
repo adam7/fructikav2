@@ -4,14 +4,9 @@ import 'package:fructika/favourites_route.dart';
 import 'package:fructika/food_group_route.dart';
 import 'package:fructika/search_route.dart';
 import 'package:fructika/settings_route.dart';
+import 'package:fructika/titles.dart';
 
 class AppDrawer extends StatelessWidget {
-  final String _foodGroupTitle = "Food Groups";
-  final String _foodSearchTitle = "Food Search";
-  final String _settingsTitle = "Settings";
-  final String _aboutTitle = "About";
-  final String _favouriteTitle = "Favourites";
-
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -24,16 +19,15 @@ class AppDrawer extends StatelessWidget {
               color: Colors.blue,
             ),
           ),
-          _buildListTile(context, SearchRoute(title: _foodSearchTitle),
-              _foodSearchTitle, Icons.search),
-          _buildListTile(context, FavouritesRoute(title: _favouriteTitle),
-              _favouriteTitle, Icons.favorite),
-          _buildListTile(context, FoodGroupRoute(title: _foodGroupTitle),
-              _foodGroupTitle, Icons.group),
-          _buildListTile(context, SettingsRoute(title: _settingsTitle),
-              _settingsTitle, Icons.settings),
           _buildListTile(
-              context, AboutRoute(title: _aboutTitle), _aboutTitle, Icons.info)
+              context, SearchRoute(), Titles.foodSearchTitle, Icons.search),
+          _buildListTile(context, FavouritesRoute(), Titles.favouriteTitle,
+              Icons.favorite),
+          _buildListTile(
+              context, FoodGroupRoute(), Titles.foodGroupTitle, Icons.group),
+          _buildListTile(
+              context, SettingsRoute(), Titles.settingsTitle, Icons.settings),
+          _buildListTile(context, AboutRoute(), Titles.aboutTitle, Icons.info)
         ],
       ),
     );

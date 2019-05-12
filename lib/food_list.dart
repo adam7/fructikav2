@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'database/database_provider.dart';
+import 'database/sql_database_provider.dart';
 import 'package:fructika/food_route.dart';
 import 'package:fructika/models/food.dart';
+
+import 'favourite_food_icon.dart';
 
 class FoodList extends StatefulWidget {
   final List<Food> foods;
@@ -37,17 +39,7 @@ class FoodListState extends State<FoodList> {
           food.description,
           style: _biggerFont,
         ),
-        trailing: IconButton(
-          icon: Icon(
-            food.favourite ? Icons.favorite : Icons.favorite_border,
-            color: food.favourite ? Colors.red : null,
-          ),
-          onPressed: () {
-            setState(() {
-              food.favourite = !food.favourite;
-            });
-            DatabaseProvider.db.updateFood(food);
-          },
-        ));
+        trailing: FavouriteFoodIcon(food: food, databaseProvider: SqlDatabaseProvider.db)
+    );
   }
 }

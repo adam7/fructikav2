@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:fructika/app_drawer.dart';
 import 'package:fructika/titles.dart';
-import 'database/database_provider.dart';
+import 'database/sql_database_provider.dart';
 import 'package:fructika/food_list.dart';
 import 'package:fructika/models/food.dart';
 
 class FavouritesRoute extends StatelessWidget {
-  final favouriteFoods = DatabaseProvider.db.getFavouriteFoods();
+  final favouriteFoods = SqlDatabaseProvider.db.getFavouriteFoods();
 
   @override
   Widget build(BuildContext context) {

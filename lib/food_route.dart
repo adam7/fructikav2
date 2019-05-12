@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:fructika/database/sql_database_provider.dart';
+import 'package:fructika/favourite_food_icon.dart';
 import 'package:fructika/models/food.dart';
 
 class FoodRoute extends StatelessWidget {
@@ -24,6 +26,11 @@ class FoodRoute extends StatelessWidget {
             trailing:
                 CircleAvatar(child: Text(food.fructose?.toStringAsPrecision(1) ?? "?")),
             title: Text('Fructose'),
+          ),
+          ListTile(
+            trailing:
+                CircleAvatar(child: Text(food.maltose?.toStringAsPrecision(1) ?? "?")),
+            title: Text('Maltose'),
           ),
         ],
       ),
@@ -58,10 +65,7 @@ Container _buildTitleSection(Food food) {
             ],
           ),
         ),
-        Icon(
-          Icons.favorite,
-          color: Colors.red[500],
-        ),
+        FavouriteFoodIcon(food: food, databaseProvider: SqlDatabaseProvider.db)
       ],
     ),
   );

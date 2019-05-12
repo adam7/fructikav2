@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:fructika/app_drawer.dart';
-import 'database/database_provider.dart';
+import 'database/sql_database_provider.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:fructika/models/food_group.dart';
 
 class FoodGroupRoute extends StatelessWidget {
-  final foodgroups = DatabaseProvider.db.getAllFoodGroups();
+  final foodgroups = SqlDatabaseProvider.db.getAllFoodGroups();
 
   @override
   Widget build(BuildContext context) {
@@ -31,13 +31,16 @@ class FoodGroupRoute extends StatelessWidget {
     }
 
     return Swiper(
-        itemBuilder: (BuildContext context, int index) {
-          return FoodGroupCard(foodGroup: foodGroups[index]);
-        },
-        itemCount: foodGroups.length,
-        viewportFraction: 0.9,
-        scale: 0.9,
-        pagination: SwiperPagination.fraction);
+      itemBuilder: (BuildContext context, int index) {
+        return FoodGroupCard(foodGroup: foodGroups[index]);
+      },
+      itemCount: foodGroups.length,
+      // viewportFraction: 0.9,
+      // scale: 0.9,
+      // pagination: SwiperPagination.dots,
+      // layout: SwiperLayout.DEFAULT,
+      pagination: SwiperPagination.fraction
+    );
   }
 }
 
@@ -54,6 +57,8 @@ class _FoodGroupCardState extends State<FoodGroupCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
+      elevation: 12,
+      margin: EdgeInsets.all(12.0),
       clipBehavior: Clip.antiAlias,
       child: Column(
         children: <Widget>[
@@ -61,6 +66,7 @@ class _FoodGroupCardState extends State<FoodGroupCard> {
             widget.foodGroup.image,
             width: 600,
             fit: BoxFit.scaleDown,
+
           ),
           SwitchListTile(
               title: Text(widget.foodGroup.name),
@@ -68,9 +74,9 @@ class _FoodGroupCardState extends State<FoodGroupCard> {
               value: widget.foodGroup.enabled,
               onChanged: (bool value) {
                 setState(() {
-                widget.foodGroup.enabled = value;
+                  widget.foodGroup.enabled = value;
                 });
-                DatabaseProvider.db.updateFoodGroup(widget.foodGroup);
+                SqlDatabaseProvider.db.updateFoodGroup(widget.foodGroup);
               })
         ],
       ),

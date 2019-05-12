@@ -10,7 +10,7 @@ class SettingsRoute extends StatelessWidget {
         body: Column(
           children: <Widget>[
             SwitchListTile(
-              title: Text("Show unknown frcutose"),
+              title: Text("Show unknown fructose"),
               value: false,
               onChanged: (bool value) {},
             ),

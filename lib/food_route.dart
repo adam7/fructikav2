@@ -16,20 +16,22 @@ class FoodRoute extends StatelessWidget {
       ),
       body: Column(
         children: [
-          Image.asset(
-            food.imagePath,
-            width: 600,
-            fit: BoxFit.cover,
-          ),
+          Hero(
+              tag: food.description,
+              child: Image.asset(
+                food.imagePath,
+                width: 600,
+                fit: BoxFit.cover,
+              )),
           _buildTitleSection(food),
           ListTile(
-            trailing:
-                CircleAvatar(child: Text(food.fructose?.toStringAsPrecision(1) ?? "?")),
+            trailing: CircleAvatar(
+                child: Text(food.fructose?.toStringAsPrecision(1) ?? "?")),
             title: Text('Fructose'),
           ),
           ListTile(
-            trailing:
-                CircleAvatar(child: Text(food.maltose?.toStringAsPrecision(1) ?? "?")),
+            trailing: CircleAvatar(
+                child: Text(food.maltose?.toStringAsPrecision(1) ?? "?")),
             title: Text('Maltose'),
           ),
         ],

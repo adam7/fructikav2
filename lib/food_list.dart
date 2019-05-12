@@ -33,13 +33,15 @@ class FoodListState extends State<FoodList> {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => FoodRoute(food: food)));
         },
-        leading: CircleAvatar(
-            backgroundImage: Image.asset(food.imagePath).image),
+        leading: Hero(
+            tag: food.description,
+            child: CircleAvatar(
+                backgroundImage: Image.asset(food.imagePath).image)),
         title: Text(
           food.description,
           style: _biggerFont,
         ),
-        trailing: FavouriteFoodIcon(food: food, databaseProvider: SqlDatabaseProvider.db)
-    );
+        trailing: FavouriteFoodIcon(
+            food: food, databaseProvider: SqlDatabaseProvider.db));
   }
 }

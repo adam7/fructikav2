@@ -62,8 +62,8 @@ class SqlDatabaseProvider extends DatabaseProvider {
     final db = await database;
 
     final searchQuery = """
-        SELECT Food.id, Food.description, Food.food_group, Food.food_group_image, matchinfo, Food.favourite 
-          protein, total_sugars, sucrose, glucose, fructose, lactose, maltose, dietary_fiber
+        SELECT Food.id AS id, Food.description AS description, Food.food_group AS food_group, Food.food_group_image AS food_group_image, 
+          matchinfo, favourite, protein, total_sugars, sucrose, glucose, fructose, lactose, maltose, dietary_fiber
         FROM Food 
           JOIN (SELECT id, matchinfo(FoodSearch) as matchinfo FROM FoodSearch WHERE FoodSearch MATCH ?) USING(id) 
           INNER JOIN FoodGroup ON Food.food_group = FoodGroup.name 

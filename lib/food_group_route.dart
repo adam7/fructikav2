@@ -17,7 +17,7 @@ class FoodGroupRoute extends StatelessWidget {
             if (snapshot.hasData)
               return _buildFoodGroupCards(snapshot.data);
             else
-              return Center(child: new CircularProgressIndicator());
+              return Center(child: CircularProgressIndicator());
           },
         ),
         drawer: AppDrawer());

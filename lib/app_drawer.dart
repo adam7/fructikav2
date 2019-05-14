@@ -4,6 +4,7 @@ import 'package:fructika/favourites_route.dart';
 import 'package:fructika/food_group_route.dart';
 import 'package:fructika/search_route.dart';
 import 'package:fructika/settings_route.dart';
+import 'package:fructika/shared_preferences_helper.dart';
 import 'package:fructika/titles.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -26,7 +27,7 @@ class AppDrawer extends StatelessWidget {
           _buildListTile(
               context, FoodGroupRoute(), Titles.foodGroupTitle, Icons.group),
           _buildListTile(
-              context, SettingsRoute(), Titles.settingsTitle, Icons.settings),
+              context, SettingsRoute(preferencesHelper: SharedPreferencesHelper()), Titles.settingsTitle, Icons.settings),
           _buildListTile(context, AboutRoute(), Titles.aboutTitle, Icons.info)
         ],
       ),

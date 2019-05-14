@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fructika/settings_route.dart';
 import 'package:fructika/shared_preferences_helper.dart';

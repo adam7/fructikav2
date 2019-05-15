@@ -1,47 +1,47 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-abstract class PreferencesHelper{  
+abstract class PreferencesHelper {
   Future<bool> getShowUnknown();
   Future<void> setShowUnknown(bool value);
   Future<double> getWarningLevel();
   Future<void> setWarningLevel(double value);
+  final defaultShowUnknown = false;
+  final defaultWarningLevel = 10.0;
 }
 
 class SharedPreferencesHelper extends PreferencesHelper {
-  final unknownKey = "_unknown";
-  final warningKey = "_warning";
+  final _unknownKey = "_unknown";
+  final _warningKey = "_warning";
 
   Future<bool> getShowUnknown() async {
-    final defaultResult = false;
     var prefs = await SharedPreferences.getInstance();
 
     try {
-      return prefs.getBool(unknownKey) ?? defaultResult;
+      return prefs.getBool(_unknownKey) ?? defaultShowUnknown;
     } catch (exception) {
-      return defaultResult;
+      return defaultShowUnknown;
     }
   }
 
   Future<void> setShowUnknown(bool value) async {
     var prefs = await SharedPreferences.getInstance();
 
-    return prefs.setBool(unknownKey, value);
+    return prefs.setBool(_unknownKey, value);
   }
 
   Future<double> getWarningLevel() async {
-    final defaultResult = 10.0;
     var prefs = await SharedPreferences.getInstance();
 
     try {
-      return prefs.getDouble(warningKey) ?? defaultResult;
+      return prefs.getDouble(_warningKey) ?? defaultWarningLevel;
     } catch (exception) {
-      return defaultResult;
+      return defaultWarningLevel;
     }
   }
 
   Future<void> setWarningLevel(double value) async {
     var prefs = await SharedPreferences.getInstance();
 
-    return prefs.setDouble(warningKey, value);
+    return prefs.setDouble(_warningKey, value);
   }
 }

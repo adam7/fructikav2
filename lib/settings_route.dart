@@ -13,42 +13,56 @@ class SettingsRoute extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(title: Text(Titles.settingsTitle)),
         body: Column(
-          children: <Widget>[ShowUnknownSwitchListTile(preferencesHelper), WarningLevelSlider(preferencesHelper)],
+          children: <Widget>[
+            ShowUnknownSwitchListTile(preferencesHelper),
+            Divider(),
+            ListTile(
+                title: Text("Fructose warning level"),
+                trailing: WarningLevelDropdown(preferencesHelper)),
+          ],
         ),
         drawer: AppDrawer());
   }
 }
 
-class WarningLevelSlider extends StatefulWidget {
+class WarningLevelDropdown extends StatefulWidget {
   final PreferencesHelper preferencesHelper;
 
-  WarningLevelSlider(this.preferencesHelper) : super();
+  WarningLevelDropdown(this.preferencesHelper) : super();
   @override
-  _WarningLevelSliderState createState() => _WarningLevelSliderState();
+  _WarningLevelDropdownState createState() => _WarningLevelDropdownState();
 }
 
-class _WarningLevelSliderState extends State<WarningLevelSlider> {
+class _WarningLevelDropdownState extends State<WarningLevelDropdown> {
   double warningLevel;
+  final _itemValues = List<double>.generate(18, (index) => 2.0 + index);
+
+  List<DropdownMenuItem<double>> getItems() {
+    return _itemValues
+        .map((value) => DropdownMenuItem<double>(
+            value: value, child: Text("${value.toStringAsFixed(1)} g")))
+        .toList();
+  }
+
+  _ensureValidValue(double value) {
+    return _itemValues.contains(value) ? value : null;
+  }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<double>(
-        future: SharedPreferencesHelper().getWarningLevel(),
+        future: widget.preferencesHelper.getWarningLevel(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return Slider(
-                label: warningLevel.toString(),
-                value: warningLevel = snapshot.data,
-                min: 1,
-                max: 30,
-                divisions: 60,
-                onChangeEnd: (value) {},
-                onChanged: (value) {
+            return DropdownButton<double>(
+                value: _ensureValidValue(warningLevel),
+                onChanged: (double value) {
                   setState(() {
                     warningLevel = value;
                   });
                   widget.preferencesHelper.setWarningLevel(value);
-                });
+                },
+                items: getItems());
           } else {
             return CircularProgressIndicator();
           }

@@ -15,10 +15,7 @@ class AppDrawer extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: <Widget>[
           DrawerHeader(
-            child: Text('Fructika'),
-            decoration: BoxDecoration(
-              color: Colors.blue,
-            ),
+            child: Image.asset('images/icon.png')            
           ),
           _buildListTile(
               context, SearchRoute(), Titles.foodSearchTitle, Icons.search),

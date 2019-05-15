@@ -9,6 +9,12 @@ import 'package:mockito/mockito.dart';
 
 void main() {
   testWidgets('SettingsRoute', (WidgetTester tester) async {
+    final mockPreferencesHelper = MockPreferencesHelper(); 
+    final expectedShowUnknown = true;
+
+    when(mockPreferencesHelper.getShowUnknown()).thenAnswer((_) => Future.value(expectedShowUnknown));
+    when(mockPreferencesHelper.getWarningLevel()).thenAnswer((_) => Future.value(10));
+
     await tester.pumpWidget(MaterialApp(home: SettingsRoute(preferencesHelper: MockPreferencesHelper() )));
 
     expect(find.widgetWithText(AppBar, Titles.settingsTitle), findsOneWidget,

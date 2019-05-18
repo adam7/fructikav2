@@ -5,23 +5,19 @@ import 'package:fructika/models/food.dart';
 
 class GlucoseFructoseGauge extends StatelessWidget {
   final Food food;
-  final bool animate;
-  final double width;
-  final double height;
 
   final _arcRendererConfig = ArcRendererConfig(
-      arcWidth: 20, startAngle: 4 / 5 * pi, arcLength: 7 / 5 * pi);
+      arcWidth: 30, startAngle: 4 / 5 * pi, arcLength: 7 / 5 * pi);
 
-  GlucoseFructoseGauge(this.food, this.width, this.height, {this.animate});
+  GlucoseFructoseGauge(this.food);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: PieChart(_createSeriesList(food),
-            defaultRenderer: _arcRendererConfig,
-            behaviors: [DatumLegend(position: BehaviorPosition.bottom)]),
-        width: width,
-        height: height);
+    return PieChart(_createSeriesList(food),
+        defaultRenderer: _arcRendererConfig,
+        behaviors: [
+          DatumLegend(position: BehaviorPosition.bottom, desiredMaxColumns: 1)
+        ]);
   }
 
   List<Series<GaugeSegment, String>> _createSeriesList(Food food) {

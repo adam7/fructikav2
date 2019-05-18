@@ -7,7 +7,7 @@ void main() {
   testWidgets('GlucoseFructoseGauge', (WidgetTester tester) async {
     final food = Food(glucose: 1.5, fructose: 3.3);
 
-    await tester.pumpWidget(MaterialApp(home: GlucoseFructoseGauge(food, 300, 300)));
+    await tester.pumpWidget(MaterialApp(home: GlucoseFructoseGauge(food)));
 
     expect(find.byType(GlucoseFructoseGauge), findsOneWidget);
   });

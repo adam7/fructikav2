@@ -6,15 +6,12 @@ import 'test_utils.dart';
 void main() {
   testWidgets('FoodRoute', (WidgetTester tester) async {
     await tester.pumpWidget(MaterialApp(home: FoodRoute(food: favouriteFood)));
-    expect(
-        find.widgetWithText(AppBar, favouriteFood.description), findsOneWidget,
-        reason: "food description should be in AppBar");
-    expect(find.widgetWithText(Row, favouriteFood.description),
-        findsOneWidget,
-        reason: "food description should be in a Row", skip: "skipping while we refactor to a grid");
+    
+    expect(find.text(favouriteFood.description), findsOneWidget,
+        reason: "food description should be shown");
     expect(find.text(favouriteFood.foodGroup), findsOneWidget,
-        reason: "food group name should be shown", skip: "skipping while we refactor to a grid");
+        reason: "food group name should be shown");
     expect(find.byIcon(Icons.favorite), findsOneWidget,
-        reason: "favourite food should have the filled icon", skip: "skipping while we refactor to a grid");
+        reason: "favourite food should have the filled icon");
   });
 }

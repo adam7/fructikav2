@@ -17,10 +17,20 @@ void main() {
     expect(listTiles, findsNWidgets(foods.length),
         reason: "should show a ListTile for every food");
 
-    final favouriteTile = find.widgetWithText(ListTile, favouriteFood.description);
-    expect(find.descendant(of: favouriteTile, matching: find.byIcon(Icons.favorite)), findsOneWidget, reason:"foods that are favourite should have the filled icon");
+    final favouriteTile =
+        find.widgetWithText(ListTile, favouriteFood.description);
+    expect(
+        find.descendant(
+            of: favouriteTile, matching: find.byIcon(Icons.favorite)),
+        findsOneWidget,
+        reason: "foods that are favourite should have the filled icon");
 
-    final unFavouriteTile = find.widgetWithText(ListTile, unFavouriteFood.description);
-    expect(find.descendant(of: unFavouriteTile, matching: find.byIcon(Icons.favorite_border)), findsOneWidget, reason:"foods that are not favourite should have the unfilled icon");
+    final unFavouriteTile =
+        find.widgetWithText(ListTile, unFavouriteFood.description);
+    expect(
+        find.descendant(
+            of: unFavouriteTile, matching: find.byIcon(Icons.favorite_border)),
+        findsOneWidget,
+        reason: "foods that are not favourite should have the unfilled icon");
   });
 }

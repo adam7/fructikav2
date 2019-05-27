@@ -4,7 +4,7 @@ import 'package:fructika/food_group_route.dart';
 import 'package:fructika/titles.dart';
 
 void main() {
-  testWidgets('FoodRoute', (WidgetTester tester) async {
+  testWidgets('FoodGroupRoute', (WidgetTester tester) async {
     await tester
         .pumpWidget(MaterialApp(home: FoodGroupRoute()));
 

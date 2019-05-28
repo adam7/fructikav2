@@ -7,7 +7,7 @@ void main() {
   testWidgets('FoodList', (WidgetTester tester) async {
     // Key so we can manipulate the scaffold
     final _scaffoldKey = GlobalKey<ScaffoldState>();
-    final foods = [favouriteFood, unFavouriteFood];
+    final foods = [TestFoodData.favouriteFood, TestFoodData.unFavouriteFood];
 
     await tester.pumpWidget(MaterialApp(
         home: Scaffold(key: _scaffoldKey, body: FoodList(foods: foods))));
@@ -18,7 +18,7 @@ void main() {
         reason: "should show a ListTile for every food");
 
     final favouriteTile =
-        find.widgetWithText(ListTile, favouriteFood.description);
+        find.widgetWithText(ListTile, TestFoodData.favouriteFood.description);
     expect(
         find.descendant(
             of: favouriteTile, matching: find.byIcon(Icons.favorite)),
@@ -26,7 +26,7 @@ void main() {
         reason: "foods that are favourite should have the filled icon");
 
     final unFavouriteTile =
-        find.widgetWithText(ListTile, unFavouriteFood.description);
+        find.widgetWithText(ListTile, TestFoodData.unFavouriteFood.description);
     expect(
         find.descendant(
             of: unFavouriteTile, matching: find.byIcon(Icons.favorite_border)),

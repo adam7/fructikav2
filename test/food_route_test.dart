@@ -1,11 +1,11 @@
-// import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-// import 'package:fructika/food_route.dart';
-// import 'test_utils.dart';
+import 'package:fructika/food_route.dart';
+import 'test_utils.dart';
 
 void main() {
   testWidgets('FoodRoute', (WidgetTester tester) async {
-//     await tester.pumpWidget(MaterialApp(home: FoodRoute(food: favouriteFood)));
+    await tester.pumpWidget(MaterialApp(home: FoodRoute(food: TestFoodData.favouriteFood)));
 
 //     expect(find.text(favouriteFood.description), findsOneWidget,
 //         reason: "food description should be shown");

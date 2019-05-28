@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:fructika/database/sql_database_provider.dart';
+import 'package:fructika/favourite_food_icon.dart';
 import 'package:fructika/models/food.dart';
 import 'package:fructika/widgets/glucose_fructose_gauge.dart';
 import 'package:fructika/widgets/sugars_chart.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/foundation.dart';
-import 'database/sql_database_provider.dart';
-import 'favourite_food_icon.dart';
 
 class HeroHeader implements SliverPersistentHeaderDelegate {
   final Food food;

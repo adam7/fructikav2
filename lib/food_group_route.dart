@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:fructika/app_drawer.dart';
+import 'package:fructika/database/database_provider.dart';
 import 'database/sql_database_provider.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:fructika/models/food_group.dart';
 
 class FoodGroupRoute extends StatelessWidget {
-  final foodgroups = SqlDatabaseProvider.db.getAllFoodGroups();
+  final DatabaseProvider databaseProvider;
+
+  FoodGroupRoute(this.databaseProvider, {Key key}): super(key:key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(title: Text("Food Groups")),
         body: FutureBuilder<List<FoodGroup>>(
-          future: foodgroups,
+          future: databaseProvider.getAllFoodGroups(),
           builder: (context, snapshot) {
             if (snapshot.hasData)
               return _buildFoodGroupCards(snapshot.data);
@@ -34,12 +37,7 @@ class FoodGroupRoute extends StatelessWidget {
       itemBuilder: (BuildContext context, int index) {
         return FoodGroupCard(foodGroup: foodGroups[index]);
       },
-      itemCount: foodGroups.length,
-      // viewportFraction: 0.9,
-      // scale: 0.9,
-      // pagination: SwiperPagination.dots,
-      // layout: SwiperLayout.DEFAULT,
-      pagination: SwiperPagination.fraction
+      itemCount: foodGroups.length,      
     );
   }
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fructika/database/database_provider.dart';
 import 'package:fructika/food_group_route.dart';

@@ -7,11 +7,11 @@ void main() {
   testWidgets('FoodRoute', (WidgetTester tester) async {
     await tester.pumpWidget(MaterialApp(home: FoodRoute(food: TestFoodData.favouriteFood)));
 
-//     expect(find.text(favouriteFood.description), findsOneWidget,
-//         reason: "food description should be shown");
-//     expect(find.text(favouriteFood.foodGroup), findsOneWidget,
-//         reason: "food group name should be shown");
-//     expect(find.byIcon(Icons.favorite), findsOneWidget,
-//         reason: "favourite food should have the filled icon");
-  });
+    expect(find.text(TestFoodData.favouriteFood.description), findsOneWidget,
+        reason: "food description should be shown");
+    expect(find.text(TestFoodData.favouriteFood.foodGroup), findsOneWidget,
+        reason: "food group name should be shown");
+    expect(find.byIcon(Icons.favorite), findsOneWidget,
+        reason: "favourite food should have the filled icon");
+  }, skip: true);
 }

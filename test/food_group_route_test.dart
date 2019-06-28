@@ -30,7 +30,7 @@ void main() {
   });
 
   testWidgets('FoodGroupRoute with FoodGroups', (WidgetTester tester) async {
-    final MockDatabaseProvider mockDatabaseProvider = MockDatabaseProvider();
+    final mockDatabaseProvider = MockDatabaseProvider();
 
     when(mockDatabaseProvider.getAllFoodGroups())
         .thenAnswer((_) async => Future.value(foodGroups));

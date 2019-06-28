@@ -19,7 +19,7 @@ class AppDrawer extends StatelessWidget {
             child: Image.asset('images/icon.png')            
           ),
           _buildListTile(
-              context, SearchRoute(), Titles.foodSearchTitle, Icons.search),
+              context, SearchRoute(SqlDatabaseProvider.db), Titles.foodSearchTitle, Icons.search),
           _buildListTile(context, FavouritesRoute(), Titles.favouriteTitle,
               Icons.favorite),
           _buildListTile(

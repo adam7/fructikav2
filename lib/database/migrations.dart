@@ -24,6 +24,7 @@ class Migrator {
 
   _createFoodSearchTable(Database db) async {
     await db.execute("CREATE VIRTUAL TABLE FoodSearch using fts4("
+        "tokenize=porter,"
         "id TEXT,"
         "description TEXT,"
         "notindexed=id"

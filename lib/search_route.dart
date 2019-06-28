@@ -22,6 +22,11 @@ class SearchRouteState extends State<SearchRoute> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(
+                bottom:Radius.circular(15)
+              ),
+            ),
             title: TextField(
                 controller: _search,
                 onSubmitted: (text) {},
@@ -39,6 +44,7 @@ class SearchRouteState extends State<SearchRoute> {
                   }
                 },
                 textInputAction: TextInputAction.search,
+                autofocus: true,
                 decoration: InputDecoration(
                     prefixIcon: Icon(Icons.search),
                     hintText: Titles.foodSearchTitle))),

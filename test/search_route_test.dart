@@ -5,6 +5,7 @@ import 'package:fructika/favourite_food_icon.dart';
 import 'package:fructika/models/food.dart';
 import 'package:fructika/search_route.dart';
 import 'package:fructika/titles.dart';
+import 'package:fructika/widgets/fructika_app_bar.dart';
 import 'package:mockito/mockito.dart';
 
 class MockDatabaseProvider extends Mock implements DatabaseProvider {}
@@ -34,7 +35,7 @@ void main() {
     await tester
         .pumpWidget(MaterialApp(home: SearchRoute(mockDatabaseProvider)));
 
-    expect(find.widgetWithText(AppBar, Titles.foodSearchTitle), findsOneWidget,
+    expect(find.widgetWithText(FructikaAppBar, Titles.foodSearchTitle), findsOneWidget,
         reason: "app bar should have the right title");
 
     expect(

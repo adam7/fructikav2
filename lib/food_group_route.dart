@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fructika/app_drawer.dart';
 import 'package:fructika/database/database_provider.dart';
+import 'package:fructika/widgets/fructika_app_bar.dart';
 import 'database/sql_database_provider.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:fructika/models/food_group.dart';
@@ -13,7 +14,7 @@ class FoodGroupRoute extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text("Food Groups")),
+        appBar: FructikaAppBar(title: Text("Food Groups")),
         body: FutureBuilder<List<FoodGroup>>(
           future: databaseProvider.getAllFoodGroups(),
           builder: (context, snapshot) {

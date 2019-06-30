@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fructika/database/sql_database_provider.dart';
 import 'package:fructika/favourite_food_icon.dart';
 import 'package:fructika/models/food.dart';
+import 'package:fructika/widgets/fructika_app_bar.dart';
 import 'package:fructika/widgets/glucose_fructose_gauge.dart';
 import 'package:fructika/widgets/sugars_chart.dart';
 import 'package:flutter/rendering.dart';
@@ -78,7 +79,7 @@ class FoodRoute extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: FructikaAppBar(
         title: Text(food.foodGroup),
       ),
       body: _scrollView(context),
@@ -102,7 +103,7 @@ class FoodRoute extends StatelessWidget {
               crossAxisCount: 2,
             ),
             delegate: SliverChildListDelegate(<Widget>[
-              Card(child: Text("${food.fructose} g")),
+              Card(child: Align(alignment: Alignment.center, child: Text("${food.fructose} g", style: TextStyle(fontSize: 50)))),
               Card(child: GlucoseFructoseGauge(food)),
             ]),
           ),
@@ -129,66 +130,3 @@ class FoodRoute extends StatelessWidget {
     );
   }
 }
-
-// class FoodRoute extends StatelessWidget {
-//   final Food food;
-
-//   FoodRoute({Key key, this.food}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text(food.description),
-//       ),
-//       body:
-//         // Hero(
-//         //   tag: food.description,
-//         //   child: Image.asset(
-//         //     food.imagePath,
-//         //     width: 600,
-//         //     fit: BoxFit.cover,
-//         //   ),
-//         // ),
-//         GridView.count(
-//           crossAxisCount: 2,
-//           padding: EdgeInsets.all(12.0),
-//           childAspectRatio: 8.0 / 9.0,
-//           children: <Widget>[
-//             Card(child: Text("${food.fructose} g")),
-//             Card(child: GlucoseFructoseGauge(food)),
-//             Card(child: SugarsChart(food))],
-//         ),
-
-//       // body: ListView(
-//       //   children: [
-//       //     Hero(
-//       //       tag: food.description,
-//       //       child: Image.asset(
-//       //         food.imagePath,
-//       //         width: 600,
-//       //         fit: BoxFit.cover,
-//       //       ),
-//       //     ),
-//       //     _buildTitleSection(food),
-//       //     GlucoseFructoseGauge(food, 300, 300),
-//       //     _buildNutrientListTile("Fructose", food.fructose),
-//       //     _buildNutrientListTile("Glucose", food.glucose),
-//       //     _buildNutrientListTile("Maltose", food.maltose),
-//       //     _buildNutrientListTile("Sucrose", food.sucrose),
-//       //     _buildNutrientListTile("Total Sugars", food.totalSugars),
-//       //     _buildNutrientListTile("Lactose", food.lactose),
-//       //     _buildNutrientListTile("Protein", food.protein),
-//       //   ],
-//       // ),
-//     );
-//   }
-// }
-
-// // TODO: add back in once migration to a grid is complete
-// // ListTile _buildNutrientListTile(String title, num value) {
-// //   return ListTile(
-// //     trailing: Text("${value?.toStringAsFixed(1) ?? "?"} g"),
-// //     title: Text(title),
-// //   );
-// // }

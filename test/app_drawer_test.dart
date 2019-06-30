@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fructika/app_drawer.dart';
+import 'package:fructika/titles.dart';
 
 void main() {
   testWidgets('App drawer has all the right menu items',
@@ -17,10 +18,10 @@ void main() {
 
     final listTiles = find.byType(ListTile);
     
-    expect(find.descendant(of: listTiles, matching: find.text("Food Groups")), findsOneWidget);
-    expect(find.descendant(of: listTiles, matching: find.text("Food Search")), findsOneWidget);
-    expect(find.descendant(of: listTiles, matching: find.text("Settings")), findsOneWidget);
-    expect(find.descendant(of: listTiles, matching: find.text("About")), findsOneWidget);
-    expect(find.descendant(of: listTiles, matching: find.text("Favourites")), findsOneWidget);
+    expect(find.descendant(of: listTiles, matching: find.text(Titles.foodGroupTitle)), findsOneWidget);
+    expect(find.descendant(of: listTiles, matching: find.text(Titles.foodSearchTitle)), findsOneWidget);
+    expect(find.descendant(of: listTiles, matching: find.text(Titles.settingsTitle)), findsOneWidget);
+    expect(find.descendant(of: listTiles, matching: find.text(Titles.aboutTitle)), findsOneWidget);
+    expect(find.descendant(of: listTiles, matching: find.text(Titles.favouriteTitle)), findsOneWidget);
   });
 }

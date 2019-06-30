@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fructika/app_drawer.dart';
 import 'package:fructika/shared_preferences_helper.dart';
 import 'package:fructika/titles.dart';
+import 'package:fructika/widgets/fructika_app_bar.dart';
 
 class SettingsRoute extends StatelessWidget {
   final PreferencesHelper preferencesHelper;
@@ -11,7 +12,7 @@ class SettingsRoute extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text(Titles.settingsTitle)),
+        appBar: FructikaAppBar(title: Text(Titles.settingsTitle)),
         body: Column(
           children: <Widget>[
             ShowUnknownSwitchListTile(preferencesHelper),

@@ -32,7 +32,8 @@ class SqlDatabaseProvider extends DatabaseProvider {
 
     return await openDatabase(path, version: 1, onOpen: (db) {},
         onCreate: (Database db, int version) async {
-      Migrator().create(db);
+      createTables(db, version);
+      populateTables(db, version);
     });
   }
 
@@ -52,7 +53,6 @@ class SqlDatabaseProvider extends DatabaseProvider {
 
   Future<List<Food>> getFavouriteFoods() async {
     final db = await database;
-
     final result = await db.query("Food", where: "favourite = 1");
 
     return result.isNotEmpty ? result.map((f) => Food.fromMap(f)).toList() : [];

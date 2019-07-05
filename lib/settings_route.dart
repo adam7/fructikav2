@@ -17,25 +17,22 @@ class SettingsRoute extends StatelessWidget {
           children: <Widget>[
             ShowUnknownSwitchListTile(preferencesHelper),
             Divider(),
-            ListTile(
-                title: Text("Fructose warning level"),
-                trailing: WarningLevelDropdown(preferencesHelper)),
+            WarningLevelDropdownListTile(preferencesHelper)
           ],
         ),
         drawer: AppDrawer());
   }
 }
 
-class WarningLevelDropdown extends StatefulWidget {
+class WarningLevelDropdownListTile extends StatefulWidget {
   final PreferencesHelper preferencesHelper;
 
-  WarningLevelDropdown(this.preferencesHelper) : super();
+  WarningLevelDropdownListTile(this.preferencesHelper) : super();
   @override
-  _WarningLevelDropdownState createState() => _WarningLevelDropdownState();
+  _WarningLevelDropdownListTileState createState() => _WarningLevelDropdownListTileState();
 }
 
-class _WarningLevelDropdownState extends State<WarningLevelDropdown> {
-  double warningLevel;
+class _WarningLevelDropdownListTileState extends State<WarningLevelDropdownListTile> {
   final _itemValues = List<double>.generate(18, (index) => 2.0 + index);
 
   List<DropdownMenuItem<double>> getItems() {
@@ -55,15 +52,14 @@ class _WarningLevelDropdownState extends State<WarningLevelDropdown> {
         future: widget.preferencesHelper.getWarningLevel(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return DropdownButton<double>(
-                value: _ensureValidValue(warningLevel),
-                onChanged: (double value) {
-                  setState(() {
-                    warningLevel = value;
-                  });
-                  widget.preferencesHelper.setWarningLevel(value);
-                },
-                items: getItems());
+            return ListTile(
+                title: Text("Fructose warning level"),
+                trailing: DropdownButton<double>(
+                    value: _ensureValidValue(snapshot.data),
+                    onChanged: (double value) {
+                      widget.preferencesHelper.setWarningLevel(value);
+                    },
+                    items: getItems()));
           } else {
             return CircularProgressIndicator();
           }

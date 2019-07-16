@@ -1,25 +1,41 @@
 import 'dart:typed_data';
 
+class Nutrient {
+  final String name;
+  final num value;
+
+  String get formattedValue {
+    return "${value ?? '?'}g";
+  }
+
+  Nutrient(this.name, this.value);
+
+  @override
+  String toString() {
+    return "$name $formattedValue";
+  }
+}
+
 class Food {
   String id;
   String description;
   String foodGroupImage;
   String foodGroup;
   Uint8List matchinfo;
-  num protein;
-  num totalSugars;
-  num sucrose;
-  num glucose;
-  num fructose;
-  num lactose;
-  num maltose;
-  num dietaryFiber;
   bool favourite;
+
+  final Nutrient protein;
+  final Nutrient totalSugars;
+  final Nutrient sucrose;
+  final Nutrient glucose;
+  final Nutrient fructose;
+  final Nutrient lactose;
+  final Nutrient maltose;
+  final Nutrient dietaryFiber;
 
   String get imagePath {
     return "images/$foodGroupImage.jpg";
   }
-
   Food(
       {this.id,
       this.description,
@@ -27,14 +43,22 @@ class Food {
       this.foodGroupImage,
       this.matchinfo,
       this.favourite,
-      this.protein,
-      this.totalSugars,
-      this.sucrose,
-      this.glucose,
-      this.fructose,
-      this.lactose,
-      this.maltose,
-      this.dietaryFiber});
+      num proteinValue,
+      num totalSugarsValue,
+      num sucroseValue,
+      num glucoseValue,
+      num fructoseValue,
+      num lactoseValue,
+      num maltoseValue,
+      num dietaryFiberValue})
+      : protein = Nutrient("Protein", proteinValue),
+        totalSugars = Nutrient("Total Sugars", totalSugarsValue),
+        sucrose = Nutrient("Sucrose", sucroseValue),
+        glucose = Nutrient("Glucose", glucoseValue),
+        fructose = Nutrient("Fructose", fructoseValue),
+        lactose = Nutrient("Lactose", lactoseValue),
+        maltose = Nutrient("Maltose", maltoseValue),
+        dietaryFiber = Nutrient("Dietary Fiber", dietaryFiberValue);
 
   factory Food.fromMap(Map<String, dynamic> json) {
     return new Food(
@@ -43,14 +67,14 @@ class Food {
         foodGroup: json["food_group"],
         foodGroupImage: json["food_group_image"],
         matchinfo: json["matchinfo"],
-        protein: json["protein"],
-        totalSugars: json["total_sugars"],
-        sucrose: json["sucrose"],
-        glucose: json["glucose"],
-        fructose: json["fructose"],
-        lactose: json["lactose"],
-        maltose: json["maltose"],
-        dietaryFiber: json["dietaryFiber"],
+        proteinValue: json["protein"],
+        totalSugarsValue: json["total_sugars"],
+        sucroseValue: json["sucrose"],
+        glucoseValue: json["glucose"],
+        fructoseValue: json["fructose"],
+        lactoseValue: json["lactose"],
+        maltoseValue: json["maltose"],
+        dietaryFiberValue: json["dietaryFiber"],
         favourite: json["favourite"] == 1);
   }
 
@@ -60,13 +84,13 @@ class Food {
         "food_group": foodGroup,
         "food_group_image": foodGroupImage,
         "favourite": favourite ? 1 : 0,
-        "protein": protein,
-        "total_sugars": totalSugars,
-        "sucrose": sucrose,
-        "glucose": glucose,
-        "fructose": fructose,
-        "lactose": lactose,
-        "maltose": maltose,
-        "dietary_fiber": dietaryFiber
+        "protein": protein.value,
+        "total_sugars": totalSugars.value,
+        "sucrose": sucrose.value,
+        "glucose": glucose.value,
+        "fructose": fructose.value,
+        "lactose": lactose.value,
+        "maltose": maltose.value,
+        "dietary_fiber": dietaryFiber.value
       };
 }

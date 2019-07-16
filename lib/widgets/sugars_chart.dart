@@ -20,16 +20,15 @@ class SugarsChart extends StatelessWidget {
 
   List<Series<PieSegment, String>> _createSeriesList(Food food) {
     final data = [
-      new PieSegment("Fructose ${food.fructose}g", food.fructose ?? 0),
-      new PieSegment('Glucose ${food.glucose}g', food.glucose ?? 0),
-      new PieSegment('Sucrose ${food.glucose}g', food.sucrose ?? 0),
-      new PieSegment('Maltose ${food.glucose}g', food.maltose ?? 0)
+      new PieSegment(food.fructose.toString(), food.fructose.value ?? 0),
+      new PieSegment(food.glucose.toString(), food.glucose.value ?? 0),
+      new PieSegment(food.sucrose.toString(), food.sucrose.value ?? 0),
+      new PieSegment(food.glucose.toString(), food.maltose.value ?? 0)
     ];
 
     return [
-      Series<PieSegment, String>(
-        
-        displayName: "Total sugars ${food.totalSugars} g",
+      Series<PieSegment, String>(        
+        displayName: "Total sugars ${food.totalSugars.value} g",
         id: 'Segments',
         domainFn: (PieSegment segment, _) => segment.segment,
         measureFn: (PieSegment segment, _) => segment.measure,

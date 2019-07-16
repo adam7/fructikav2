@@ -24,42 +24,33 @@ class SettingsRoute extends StatelessWidget {
   }
 }
 
-class WarningLevelDropdownListTile extends StatefulWidget {
+class WarningLevelDropdownListTile extends StatelessWidget {
   final PreferencesHelper preferencesHelper;
-
-  WarningLevelDropdownListTile(this.preferencesHelper) : super();
-  @override
-  _WarningLevelDropdownListTileState createState() => _WarningLevelDropdownListTileState();
-}
-
-class _WarningLevelDropdownListTileState extends State<WarningLevelDropdownListTile> {
   final _itemValues = List<double>.generate(18, (index) => 2.0 + index);
 
-  List<DropdownMenuItem<double>> getItems() {
+  WarningLevelDropdownListTile(this.preferencesHelper) : super();
+
+  _getItems() {
     return _itemValues
         .map((value) => DropdownMenuItem<double>(
             value: value, child: Text("${value.toStringAsFixed(1)} g")))
         .toList();
   }
 
-  _ensureValidValue(double value) {
-    return _itemValues.contains(value) ? value : null;
-  }
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<double>(
-        future: widget.preferencesHelper.getWarningLevel(),
+        future: preferencesHelper.getWarningLevel(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return ListTile(
                 title: Text("Fructose warning level"),
                 trailing: DropdownButton<double>(
-                    value: _ensureValidValue(snapshot.data),
+                    value: snapshot.data,
                     onChanged: (double value) {
-                      widget.preferencesHelper.setWarningLevel(value);
+                      preferencesHelper.setWarningLevel(value);
                     },
-                    items: getItems()));
+                    items: _getItems()));
           } else {
             return CircularProgressIndicator();
           }

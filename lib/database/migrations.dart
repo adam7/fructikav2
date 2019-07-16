@@ -44,14 +44,14 @@ populateFoods(final Database db, final String foodsJSON) async {
           food.foodGroup,
           food.foodGroupImage,
           food.favourite,
-          food.protein,
-          food.totalSugars,
-          food.sucrose,
-          food.glucose,
-          food.fructose,
-          food.lactose,
-          food.maltose,
-          food.dietaryFiber
+          food.protein.value,
+          food.totalSugars.value,
+          food.sucrose.value,
+          food.glucose.value,
+          food.fructose.value,
+          food.lactose.value,
+          food.maltose.value,
+          food.dietaryFiber.value
         ]);
 
     batch.rawInsert(

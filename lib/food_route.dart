@@ -4,6 +4,7 @@ import 'package:fructika/favourite_food_icon.dart';
 import 'package:fructika/models/food.dart';
 import 'package:fructika/widgets/fructika_app_bar.dart';
 import 'package:fructika/widgets/glucose_fructose_gauge.dart';
+import 'package:fructika/widgets/sugars_card.dart';
 import 'package:fructika/widgets/sugars_chart.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/foundation.dart';
@@ -93,17 +94,19 @@ class FoodRoute extends StatelessWidget {
         slivers: <Widget>[
           SliverPersistentHeader(
             pinned: true,
-            delegate: HeroHeader(
-                minExtent: 100.0,
-                maxExtent: 300.0,
-                food: food),
+            delegate:
+                HeroHeader(minExtent: 100.0, maxExtent: 300.0, food: food),
           ),
           SliverGrid(
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
             ),
             delegate: SliverChildListDelegate(<Widget>[
-              Card(child: Align(alignment: Alignment.center, child: Text("${food.fructose} g", style: TextStyle(fontSize: 50)))),
+              Card(
+                  child: Align(
+                      alignment: Alignment.center,
+                      child: Text("${food.fructose.value} g",
+                          style: TextStyle(fontSize: 50)))),
               Card(child: GlucoseFructoseGauge(food)),
             ]),
           ),
@@ -112,16 +115,16 @@ class FoodRoute extends StatelessWidget {
               crossAxisCount: 1,
               childAspectRatio: 2,
             ),
-            delegate: SliverChildListDelegate(<Widget>[
-              Card(child: SugarsChart(food))
-            ]),
+            delegate: SliverChildListDelegate(
+                <Widget>[Card(child: SugarsChart(food))]),
           ),
           SliverGrid(
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 1,
-              childAspectRatio: 2,
+              crossAxisCount: 2,
             ),
             delegate: SliverChildListDelegate(<Widget>[
+              SugarsCard(food),
+              // TODO: Lactose protein should go here
               Card(child: Text("Lactose, Protein etc. go here ..."))
             ]),
           ),

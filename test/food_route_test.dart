@@ -10,14 +10,14 @@ final testFood = Food(
     favourite: true,
     foodGroupImage: imageName,
     foodGroup: "Test Group",
-    dietaryFiber: 1,
-    fructose: 1,
-    glucose: 1,
-    maltose: 1,
-    sucrose: 1,
-    totalSugars: 4,
-    lactose: 1,
-    protein: 1
+    dietaryFiberValue: 1,
+    fructoseValue: 1,
+    glucoseValue: 1,
+    maltoseValue: 1,
+    sucroseValue: 1,
+    totalSugarsValue: 4,
+    lactoseValue: 1,
+    proteinValue: 1
     );
 
 void main() {

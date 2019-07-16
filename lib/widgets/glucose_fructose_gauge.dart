@@ -22,8 +22,8 @@ class GlucoseFructoseGauge extends StatelessWidget {
 
   List<Series<GaugeSegment, String>> _createSeriesList(Food food) {
     final data = [
-      new GaugeSegment("Fructose ${food.fructose}g", food.fructose ?? 0),
-      new GaugeSegment('Glucose ${food.glucose}g', food.glucose ?? 0)
+      new GaugeSegment("Fructose ${food.fructose.value}g", food.fructose.value ?? 0),
+      new GaugeSegment('Glucose ${food.glucose.value}g', food.glucose.value ?? 0)
     ];
 
     return [

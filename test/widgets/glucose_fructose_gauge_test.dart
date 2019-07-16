@@ -5,7 +5,7 @@ import 'package:fructika/widgets/glucose_fructose_gauge.dart';
 
 void main() {
   testWidgets('GlucoseFructoseGauge', (WidgetTester tester) async {
-    final food = Food(glucose: 1.5, fructose: 3.3);
+    final food = Food(glucoseValue: 1.5, fructoseValue: 3.3);
 
     await tester.pumpWidget(MaterialApp(home: GlucoseFructoseGauge(food)));
 

@@ -7,6 +7,6 @@ class FructikaAppBar extends AppBar {
           title: title,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(bottom: Radius.circular(15)),
-          ),
+          )
         );
 }

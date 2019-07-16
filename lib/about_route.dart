@@ -20,15 +20,14 @@ class AboutRoute extends StatelessWidget {
             Container(
                 padding: EdgeInsets.all(8),
                 child: Text("Fructika is made with ❤ in beautiful Budapest",
-                    style: TextStyle(fontWeight: FontWeight.bold))),
+                    style: Theme.of(context).textTheme.subhead)),
             Container(
                 padding: EdgeInsets.all(8),
                 child: Text("Find out more on the web",
                     style: TextStyle(fontWeight: FontWeight.bold))),
             buttonSection,
             Container(
-                padding: EdgeInsets.all(8),
-                child: Text("All code is GPL3")),
+                padding: EdgeInsets.all(8), child: Text("All code is GPL3")),
             Container(
                 padding: EdgeInsets.all(8),
                 child: Text("All images are Unsplash License")),

@@ -3,6 +3,7 @@ import 'package:fructika/database/sql_database_provider.dart';
 import 'package:fructika/favourite_food_icon.dart';
 import 'package:fructika/models/food.dart';
 import 'package:fructika/widgets/fructika_app_bar.dart';
+import 'package:fructika/widgets/fructose_card.dart';
 import 'package:fructika/widgets/glucose_fructose_gauge.dart';
 import 'package:fructika/widgets/sugars_card.dart';
 import 'package:fructika/widgets/sugars_chart.dart';
@@ -102,11 +103,7 @@ class FoodRoute extends StatelessWidget {
               crossAxisCount: 2,
             ),
             delegate: SliverChildListDelegate(<Widget>[
-              Card(
-                  child: Align(
-                      alignment: Alignment.center,
-                      child: Text("${food.fructose.value} g",
-                          style: TextStyle(fontSize: 50)))),
+              FructoseCard(food),
               Card(child: GlucoseFructoseGauge(food)),
             ]),
           ),

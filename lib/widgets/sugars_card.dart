@@ -1,39 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:fructika/models/food.dart';
 
+class SugarRow extends StatelessWidget {
+  final Nutrient nutrient;
+
+  SugarRow(this.nutrient);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(children: [
+      Expanded(child: Text(nutrient.name)),
+      Text(nutrient.formattedValue)
+    ]);
+  }
+}
+
 class SugarsCard extends StatelessWidget {
   final Food food;
-  
+
   SugarsCard(this.food);
 
   @override
   Widget build(BuildContext context) {
     return Card(
         child: Column(children: [
-      Row(children: [
-        Expanded(child: Text(food.totalSugars.name)),
-        Text(food.totalSugars.formattedValue)
-      ]),
+      SugarRow(food.totalSugars),
       Divider(),
-      Row(children: [
-        Expanded(child: Text(food.fructose.name)),
-        Text(food.fructose.formattedValue)
-      ]),
+      SugarRow(food.fructose),
       Divider(),
-      Row(children: [
-        Expanded(child: Text(food.glucose.name)),
-        Text(food.glucose.formattedValue)
-      ]),
+      SugarRow(food.glucose),
       Divider(),
-      Row(children: [
-        Expanded(child: Text(food.sucrose.name)),
-        Text(food.sucrose.formattedValue)
-      ]),
+      SugarRow(food.sucrose),
       Divider(),
-      Row(children: [
-        Expanded(child: Text(food.maltose.name)),
-        Text(food.maltose.formattedValue)
-      ])
+      SugarRow(food.maltose),
+      Divider()
     ]));
   }
 }

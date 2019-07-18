@@ -13,17 +13,20 @@ class GlucoseFructoseGauge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PieChart(_createSeriesList(food),
-        defaultRenderer: _arcRendererConfig,
-        behaviors: [
+    return Card(
+        child: PieChart(_createSeriesList(food),
+            defaultRenderer: _arcRendererConfig,
+            behaviors: [
           DatumLegend(position: BehaviorPosition.bottom, desiredMaxColumns: 1)
-        ]);
+        ]));
   }
 
   List<Series<GaugeSegment, String>> _createSeriesList(Food food) {
     final data = [
-      new GaugeSegment("Fructose ${food.fructose.value}g", food.fructose.value ?? 0),
-      new GaugeSegment('Glucose ${food.glucose.value}g', food.glucose.value ?? 0)
+      new GaugeSegment(
+          "Fructose ${food.fructose.value}g", food.fructose.value ?? 0),
+      new GaugeSegment(
+          'Glucose ${food.glucose.value}g', food.glucose.value ?? 0)
     ];
 
     return [

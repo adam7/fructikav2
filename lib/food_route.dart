@@ -104,7 +104,7 @@ class FoodRoute extends StatelessWidget {
             ),
             delegate: SliverChildListDelegate(<Widget>[
               FructoseCard(food),
-              Card(child: GlucoseFructoseGauge(food)),
+              GlucoseFructoseGauge(food),
             ]),
           ),
           SliverGrid(
@@ -112,8 +112,7 @@ class FoodRoute extends StatelessWidget {
               crossAxisCount: 1,
               childAspectRatio: 2,
             ),
-            delegate: SliverChildListDelegate(
-                <Widget>[Card(child: SugarsChart(food))]),
+            delegate: SliverChildListDelegate(<Widget>[SugarsChart(food)]),
           ),
           SliverGrid(
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

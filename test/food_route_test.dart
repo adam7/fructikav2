@@ -10,14 +10,14 @@ final testFood = Food(
     favourite: true,
     foodGroupImage: imageName,
     foodGroup: "Test Group",
-    dietaryFiberValue: 1,
-    fructoseValue: 1,
-    glucoseValue: 1,
-    maltoseValue: 1,
-    sucroseValue: 1,
-    totalSugarsValue: 4,
-    lactoseValue: 1,
-    proteinValue: 1
+    dietaryFiberValue: 1.0,
+    fructoseValue: 1.0,
+    glucoseValue: 1.0,
+    maltoseValue: 1.0,
+    sucroseValue: 1.0,
+    totalSugarsValue: 4.0,
+    lactoseValue: 1.0,
+    proteinValue: 1.0
     );
 
 void main() {
@@ -31,5 +31,5 @@ void main() {
         reason: "food group name should be shown");
     expect(find.byType(FavouriteFoodIcon), findsOneWidget,
         reason: "favourite food icon widget should be shown");
-  }, skip: true);
+  });
 }

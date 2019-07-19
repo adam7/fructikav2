@@ -14,11 +14,23 @@ class GlucoseFructoseGauge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-        child: PieChart(_createSeriesList(food),
-            defaultRenderer: _arcRendererConfig,
-            behaviors: [
-          DatumLegend(position: BehaviorPosition.bottom, desiredMaxColumns: 1)
-        ]));
+        child: Padding(
+            padding: EdgeInsets.all(10),
+            child: Stack(
+              children: <Widget>[
+                Align(alignment: Alignment.bottomLeft, child: Text('Fructose')),
+                Align(alignment: Alignment.bottomRight, child: Text('Glucose')),
+                _buildPieChart()
+              ],
+            )));
+  }
+
+  _buildPieChart() {
+    return PieChart(_createSeriesList(food),
+        defaultRenderer: _arcRendererConfig,
+        behaviors: [
+          // DatumLegend(position: BehaviorPosition.bottom, desiredMaxColumns: 1)
+        ]);
   }
 
   List<Series<GaugeSegment, String>> _createSeriesList(Food food) {

@@ -5,9 +5,6 @@ import 'package:fructika/models/food.dart';
 class SugarsChart extends StatelessWidget {
   final Food food;
 
-  final _arcRendererConfig = ArcRendererConfig(
-      arcWidth: 60, arcRendererDecorators: [ArcLabelDecorator()]);
-
   SugarsChart(this.food);
 
   @override
@@ -15,7 +12,7 @@ class SugarsChart extends StatelessWidget {
     return Card(
         child: PieChart(
       _createSeriesList(food),
-      defaultRenderer: _arcRendererConfig,
+      defaultRenderer: ArcRendererConfig(arcWidth: 60),
     ));
   }
 

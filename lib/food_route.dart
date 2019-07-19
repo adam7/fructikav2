@@ -21,7 +21,8 @@ class HeroHeader implements SliverPersistentHeaderDelegate {
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return Stack(
+    return Card(
+        child: Stack(
       fit: StackFit.expand,
       children: [
         Hero(
@@ -62,7 +63,7 @@ class HeroHeader implements SliverPersistentHeaderDelegate {
                   food: food, databaseProvider: SqlDatabaseProvider.db)),
         ),
       ],
-    );
+    ));
   }
 
   @override

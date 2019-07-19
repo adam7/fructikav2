@@ -37,14 +37,14 @@ void main() {
       _rowContainsSugarNameAndValue(0, nutrientName, "$nutrientValue.00g");
     });
 
-     testWidgets('SugarRow with name and null value shows a Row with name and question marks for value', (WidgetTester tester) async {
+     testWidgets('SugarRow with name and null value shows a Row with name and question mark for value', (WidgetTester tester) async {
       final nutrientName = "Nutrient Name";
 
       await tester.pumpWidget(
           MaterialApp(home: SugarRow(Nutrient(nutrientName, null))));
 
       
-      _rowContainsSugarNameAndValue(0, nutrientName, "?.??g");
+      _rowContainsSugarNameAndValue(0, nutrientName, "?g");
     });
   });
 }

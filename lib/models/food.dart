@@ -1,16 +1,20 @@
 import 'dart:typed_data';
 
+import 'package:flutter/material.dart';
+
 class Nutrient {
   final String name;
   final num value;
+  // final MaterialColor color;
 
+  // Nutrient(this.name, this.value, this.color);
+  Nutrient(this.name, this.value);
+  
   String get formattedValue {
     final valueAsFixed = value?.toStringAsFixed(2) ??  '?';
 
     return "${valueAsFixed}g";
   }
-
-  Nutrient(this.name, this.value);
 
   @override
   String toString() {

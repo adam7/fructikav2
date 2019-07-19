@@ -3,8 +3,8 @@ import 'package:fructika/database/sql_database_provider.dart';
 import 'package:fructika/favourite_food_icon.dart';
 import 'package:fructika/models/food.dart';
 import 'package:fructika/widgets/fructika_app_bar.dart';
-import 'package:fructika/widgets/fructose_card.dart';
 import 'package:fructika/widgets/glucose_fructose_gauge.dart';
+import 'package:fructika/widgets/nutrient_card.dart';
 import 'package:fructika/widgets/sugars_card.dart';
 import 'package:fructika/widgets/sugars_chart.dart';
 import 'package:flutter/rendering.dart';
@@ -103,25 +103,26 @@ class FoodRoute extends StatelessWidget {
               crossAxisCount: 2,
             ),
             delegate: SliverChildListDelegate(<Widget>[
-              FructoseCard(food),
+              NutrientCard(food.fructose),
               GlucoseFructoseGauge(food),
             ]),
-          ),
-          SliverGrid(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 1,
-              childAspectRatio: 2,
-            ),
-            delegate: SliverChildListDelegate(<Widget>[SugarsChart(food)]),
           ),
           SliverGrid(
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
             ),
             delegate: SliverChildListDelegate(<Widget>[
+              SugarsChart(food),
               SugarsCard(food),
-              // TODO: Lactose protein should go here
-              Card(child: Text("Lactose, Protein etc. go here ..."))
+            ]),
+          ),
+          SliverGrid(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+            ),
+            delegate: SliverChildListDelegate(<Widget>[
+              NutrientCard(food.lactose),
+              NutrientCard(food.protein)
             ]),
           ),
         ],

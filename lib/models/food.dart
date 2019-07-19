@@ -5,7 +5,7 @@ class Nutrient {
   final num value;
 
   String get formattedValue {
-    final valueAsFixed = value?.toStringAsFixed(2) ??  '?.??';
+    final valueAsFixed = value?.toStringAsFixed(2) ??  '?';
 
     return "${valueAsFixed}g";
   }

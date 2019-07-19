@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fructika/favourite_food_icon.dart';
 import 'package:fructika/food_route.dart';
 import 'package:fructika/models/food.dart';
+import 'package:fructika/widgets/nutrient_card.dart';
 
 final imageName = "group_44723";
 final testFood = Food(
@@ -31,5 +32,8 @@ void main() {
         reason: "food group name should be shown");
     expect(find.byType(FavouriteFoodIcon), findsOneWidget,
         reason: "favourite food icon widget should be shown");
+
+    expect(find.widgetWithText(NutrientCard, testFood.fructose.name), findsOneWidget);
+    expect(find.widgetWithText(NutrientCard, testFood.lactose.name, skipOffstage: false), findsOneWidget);
   });
 }

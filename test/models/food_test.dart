@@ -53,8 +53,6 @@ void main() {
     });
 
     test("mapping to json from Food populates json", () {
-
-
       final json = foodModel.toMap();
 
       expect(json["description"], equals(foodModel.description));

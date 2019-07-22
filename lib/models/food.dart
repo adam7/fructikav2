@@ -1,24 +1,6 @@
 import 'dart:typed_data';
-
-class Nutrient {
-  final String name;
-  final num value;
-  // final MaterialColor color;
-
-  // Nutrient(this.name, this.value, this.color);
-  Nutrient(this.name, this.value);
-  
-  String get formattedValue {
-    final valueAsFixed = value?.toStringAsFixed(2) ??  '?';
-
-    return "${valueAsFixed}g";
-  }
-
-  @override
-  String toString() {
-    return "$name $formattedValue";
-  }
-}
+import 'package:flutter/material.dart';
+import 'nutrient.dart';
 
 class Food {
   String id;
@@ -40,6 +22,7 @@ class Food {
   String get imagePath {
     return "images/$foodGroupImage.jpg";
   }
+
   Food(
       {this.id,
       this.description,
@@ -55,13 +38,13 @@ class Food {
       num lactoseValue,
       num maltoseValue,
       num dietaryFiberValue})
-      : protein = Nutrient("Protein", proteinValue),
-        totalSugars = Nutrient("Total Sugars", totalSugarsValue),
-        sucrose = Nutrient("Sucrose", sucroseValue),
-        glucose = Nutrient("Glucose", glucoseValue),
-        fructose = Nutrient("Fructose", fructoseValue),
+      : totalSugars = Nutrient("Total Sugars", totalSugarsValue),
+        fructose = Nutrient("Fructose", fructoseValue, color: Color(0xff29b6f6)),
+        sucrose = Nutrient("Sucrose", sucroseValue, color: Color(0xff5c6bc0)),
+        glucose = Nutrient("Glucose", glucoseValue, color: Color(0xffffa726)),
+        maltose = Nutrient("Maltose", maltoseValue,  color: Color(0xff8d6e63)),
         lactose = Nutrient("Lactose", lactoseValue),
-        maltose = Nutrient("Maltose", maltoseValue),
+        protein = Nutrient("Protein", proteinValue),
         dietaryFiber = Nutrient("Dietary Fiber", dietaryFiberValue);
 
   factory Food.fromMap(Map<String, dynamic> json) {

@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fructika/models/food.dart';
+import 'package:fructika/models/nutrient.dart';
 
 class NutrientCard extends StatelessWidget {
   final Nutrient nutrient;

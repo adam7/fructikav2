@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fructika/models/food.dart';
+import 'package:fructika/models/nutrient.dart';
 import 'package:fructika/widgets/nutrient_card.dart';
 
 void main() {

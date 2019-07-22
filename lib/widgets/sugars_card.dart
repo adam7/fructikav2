@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:fructika/models/food.dart';
+import 'package:fructika/models/nutrient.dart';
 
 class SugarRow extends StatelessWidget {
   final Nutrient nutrient;
-  final Color color = Colors.cyan;
 
   SugarRow(this.nutrient);
 
   @override
   Widget build(BuildContext context) {
     return Row(children: [
-      Icon(Icons.pie_chart, color: color, size: 15),
+      Icon(Icons.pie_chart, color: nutrient.color, size: 15),
       Expanded(child: Text(nutrient.name)),
       Text(nutrient.formattedValue)
     ]);

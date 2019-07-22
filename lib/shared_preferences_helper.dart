@@ -3,45 +3,63 @@ import 'package:shared_preferences/shared_preferences.dart';
 abstract class PreferencesHelper {
   Future<bool> getShowUnknown();
   Future<void> setShowUnknown(bool value);
+  Future<bool> getDarkMode();
+  Future<void> setDarkMode(bool value);
   Future<double> getWarningLevel();
   Future<void> setWarningLevel(double value);
-  final defaultShowUnknown = false;
-  final defaultWarningLevel = 10.0;
 }
 
 class SharedPreferencesHelper extends PreferencesHelper {
   final _unknownKey = "_unknown";
   final _warningKey = "_warning";
+  final _darkModeKey = "_darkMode";
 
-  Future<bool> getShowUnknown() async {
-    var prefs = await SharedPreferences.getInstance();
+  Future<bool> _getBoolOrDefault(String key, bool defaultValue) async {
+    final prefs = await SharedPreferences.getInstance();
 
     try {
-      return prefs.getBool(_unknownKey) ?? defaultShowUnknown;
+      return prefs.getBool(key) ?? defaultValue;
     } catch (exception) {
-      return defaultShowUnknown;
+      return defaultValue;
     }
   }
 
-  Future<void> setShowUnknown(bool value) async {
-    var prefs = await SharedPreferences.getInstance();
+  Future<void> _setBool(String key, bool value) async{
+    final prefs = await SharedPreferences.getInstance();
 
-    return prefs.setBool(_unknownKey, value);
+    await prefs.setBool(key, value);
+  }
+
+  Future<bool> getShowUnknown() async {
+    return _getBoolOrDefault(_unknownKey, false);
+  }
+
+  Future<void> setShowUnknown(bool value) async {
+    _setBool(_unknownKey, value);
+  }
+
+  Future<bool> getDarkMode() async {
+    return _getBoolOrDefault(_darkModeKey, false);
+  }
+
+  Future<void> setDarkMode(bool value) async {
+    _setBool(_darkModeKey, value);
   }
 
   Future<double> getWarningLevel() async {
-    var prefs = await SharedPreferences.getInstance();
+    final defaultValue = 10.0;
+    final prefs = await SharedPreferences.getInstance();    
 
     try {
-      return prefs.getDouble(_warningKey) ?? defaultWarningLevel;
+      return prefs.getDouble(_warningKey) ?? defaultValue;
     } catch (exception) {
-      return defaultWarningLevel;
+      return defaultValue;
     }
   }
 
   Future<void> setWarningLevel(double value) async {
     var prefs = await SharedPreferences.getInstance();
 
-    return prefs.setDouble(_warningKey, value);
+    await prefs.setDouble(_warningKey, value);
   }
 }

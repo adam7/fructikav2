@@ -22,37 +22,46 @@ void main() {
 
     test("Show Unknown", () async {
       final settingsHelper = SharedPreferencesHelper();
-      final defaultValue = false;
+      final expectedDefault = false;
       final setValue = true;
 
-      final defaultShowUnknown = await settingsHelper.getShowUnknown();
-
-      expect(defaultShowUnknown, equals(defaultValue),
+      expect((await settingsHelper.getShowUnknown()), equals(expectedDefault),
           reason: "when no preference exists we should return default");
 
       settingsHelper.setShowUnknown(setValue);
 
-      final setShowUnknown = await settingsHelper.getShowUnknown();
-
-      expect(setShowUnknown, equals(setValue),
+      expect((await settingsHelper.getShowUnknown()), equals(setValue),
           reason: "when preference has been set we should return it");
     });
 
     test("Warning Level", () async {
       final settingsHelper = SharedPreferencesHelper();
-      final defaultValue = 10.0;
+
+      final expectedDefault = 10.0;
       final setValue = 9.5;
 
-      final defaultWarningLevel = await settingsHelper.getWarningLevel();
 
-      expect(defaultWarningLevel, equals(defaultValue),
+      expect((await settingsHelper.getWarningLevel()), equals(expectedDefault),
           reason: "when no preference exists we should return default");
 
       settingsHelper.setWarningLevel(setValue);
 
-      final setWarningLevel = await settingsHelper.getWarningLevel();
+      expect((await settingsHelper.getWarningLevel()), equals(setValue),
+          reason: "when preference has been set we should return it");
+    });
 
-      expect(setWarningLevel, equals(setValue),
+    test("Dark Mode", () async {
+      final settingsHelper = SharedPreferencesHelper();
+
+      final expectedDefault = false;
+      final setValue = true;
+
+      expect((await settingsHelper.getDarkMode()), equals(expectedDefault),
+          reason: "when no preference exists we should return default");
+
+      settingsHelper.setDarkMode(setValue);
+
+      expect((await settingsHelper.getDarkMode()), equals(setValue),
           reason: "when preference has been set we should return it");
     });
   });

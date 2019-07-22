@@ -17,7 +17,8 @@ class SettingsRoute extends StatelessWidget {
           children: <Widget>[
             ShowUnknownSwitchListTile(preferencesHelper),
             Divider(),
-            WarningLevelDropdownListTile(preferencesHelper)
+            WarningLevelDropdownListTile(preferencesHelper),
+            Divider()
           ],
         ),
         drawer: AppDrawer());
@@ -73,7 +74,7 @@ class ShowUnknownSwitchListTile extends StatelessWidget {
               title: Text("Show unknown fructose"),
               value: snapshot.data,
               onChanged: (bool value) {
-                SharedPreferencesHelper().setShowUnknown(value);
+                preferencesHelper.setShowUnknown(value);
               },
             );
           } else {
@@ -82,3 +83,4 @@ class ShowUnknownSwitchListTile extends StatelessWidget {
         });
   }
 }
+

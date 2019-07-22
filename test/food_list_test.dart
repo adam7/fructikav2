@@ -19,6 +19,7 @@ void main() {
 
     final favouriteTile =
         find.widgetWithText(ListTile, TestFoodData.favouriteFood.description);
+        
     expect(
         find.descendant(
             of: favouriteTile, matching: find.byIcon(Icons.favorite)),
@@ -27,6 +28,7 @@ void main() {
 
     final unFavouriteTile =
         find.widgetWithText(ListTile, TestFoodData.unFavouriteFood.description);
+
     expect(
         find.descendant(
             of: unFavouriteTile, matching: find.byIcon(Icons.favorite_border)),

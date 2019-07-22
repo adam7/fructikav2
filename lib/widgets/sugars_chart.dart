@@ -1,6 +1,7 @@
 import 'package:charts_flutter/flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:fructika/models/food.dart';
+import 'package:fructika/models/nutrient.dart';
 
 class SugarsChart extends StatelessWidget {
   final Food food;
@@ -16,29 +17,23 @@ class SugarsChart extends StatelessWidget {
     ));
   }
 
-  List<Series<PieSegment, String>> _createSeriesList(Food food) {
-    final data = [
-      new PieSegment(food.fructose.toString(), food.fructose.value ?? 0),
-      new PieSegment(food.glucose.toString(), food.glucose.value ?? 0),
-      new PieSegment(food.sucrose.toString(), food.sucrose.value ?? 0),
-      new PieSegment(food.maltose.toString(), food.maltose.value ?? 0)
+  List<Series<Nutrient, String>> _createSeriesList(Food food) {
+    final nutrients = [
+      food.fructose,
+      food.glucose,
+      food.sucrose,
+      food.maltose
     ];
 
     return [
-      Series<PieSegment, String>(
+      Series<Nutrient, String>(
         displayName: "Total sugars ${food.totalSugars.value} g",
-        id: 'Segments',
-        domainFn: (PieSegment segment, _) => segment.segment,
-        measureFn: (PieSegment segment, _) => segment.measure,
-        data: data,
+        id: 'NutrientSegments',
+        domainFn: (nutrient, _) => nutrient.toString(),
+        measureFn: (nutrient, _) => nutrient.value, //nutrient.value ?? 0,
+        colorFn: (nutrient, _) => ColorUtil.fromDartColor(nutrient.color),
+        data: nutrients,
       )
     ];
   }
-}
-
-class PieSegment {
-  final String segment;
-  final double measure;
-
-  PieSegment(this.segment, this.measure);
 }

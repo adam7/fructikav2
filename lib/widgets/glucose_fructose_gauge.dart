@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:charts_flutter/flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:fructika/models/food.dart';
+import 'package:fructika/models/nutrient.dart';
 
 class GlucoseFructoseGauge extends StatelessWidget {
   final Food food;
@@ -18,8 +19,8 @@ class GlucoseFructoseGauge extends StatelessWidget {
             padding: EdgeInsets.all(10),
             child: Stack(
               children: <Widget>[
-                Align(alignment: Alignment.bottomLeft, child: Text('Fructose')),
-                Align(alignment: Alignment.bottomRight, child: Text('Glucose')),
+                Align(alignment: Alignment.bottomLeft, child: Text(food.fructose.name)),
+                Align(alignment: Alignment.bottomRight, child: Text(food.glucose.name)),
                 _buildPieChart()
               ],
             )));
@@ -33,28 +34,20 @@ class GlucoseFructoseGauge extends StatelessWidget {
         ]);
   }
 
-  List<Series<GaugeSegment, String>> _createSeriesList(Food food) {
-    final data = [
-      new GaugeSegment(
-          "Fructose ${food.fructose.value}g", food.fructose.value ?? 0),
-      new GaugeSegment(
-          'Glucose ${food.glucose.value}g', food.glucose.value ?? 0)
+  List<Series<Nutrient, String>> _createSeriesList(Food food) {
+    final nutrients = [
+      food.fructose,
+      food.glucose
     ];
-
+ 
     return [
-      new Series<GaugeSegment, String>(
+      new Series<Nutrient, String>(
         id: 'Segments',
-        domainFn: (GaugeSegment segment, _) => segment.segment,
-        measureFn: (GaugeSegment segment, _) => segment.measure,
-        data: data,
+        domainFn: (nutrient, _) => nutrient.name,
+        measureFn: (nutrient, _) => nutrient.value,
+        colorFn: (nutrient, _) => ColorUtil.fromDartColor(nutrient.color),
+        data:  nutrients,
       )
     ];
   }
-}
-
-class GaugeSegment {
-  final String segment;
-  final double measure;
-
-  GaugeSegment(this.segment, this.measure);
 }

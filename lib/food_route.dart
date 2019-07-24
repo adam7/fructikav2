@@ -22,6 +22,7 @@ class HeroHeader implements SliverPersistentHeaderDelegate {
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Card(
+      clipBehavior: Clip.hardEdge,
         child: Stack(
       fit: StackFit.expand,
       children: [
@@ -54,14 +55,7 @@ class HeroHeader implements SliverPersistentHeaderDelegate {
             food.description,
             style: TextStyle(fontSize: 32.0, color: Colors.white),
           ),
-        ),
-        Positioned(
-          right: 4.0,
-          bottom: 4.0,
-          child: SafeArea(
-              child: FavouriteFoodIcon(
-                  food: food, databaseProvider: SqlDatabaseProvider.db)),
-        ),
+        )
       ],
     ));
   }
@@ -86,6 +80,13 @@ class FoodRoute extends StatelessWidget {
         title: Text(food.foodGroup),
       ),
       body: _scrollView(context),
+      floatingActionButton: FloatingActionButton(
+          onPressed: () {},
+          backgroundColor: Theme.of(context).primaryColorLight,
+          mini: true,
+          child: FavouriteFoodIcon(
+              food: food, databaseProvider: SqlDatabaseProvider.db)),
+              floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
     );
   }
 

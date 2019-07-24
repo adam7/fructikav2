@@ -10,7 +10,7 @@ class SugarRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(children: [
-      Icon(Icons.pie_chart, color: nutrient.color, size: 15),
+      Padding(padding: EdgeInsets.only(right: 10),child: Icon(Icons.pie_chart, color: nutrient.color, size: 15)),
       Expanded(child: Text(nutrient.name)),
       Text(nutrient.formattedValue)
     ]);

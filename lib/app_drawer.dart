@@ -7,6 +7,7 @@ import 'package:fructika/search_route.dart';
 import 'package:fructika/settings_route.dart';
 import 'package:fructika/shared_preferences_helper.dart';
 import 'package:fructika/titles.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class AppDrawer extends StatelessWidget {
   @override
@@ -16,7 +17,8 @@ class AppDrawer extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: <Widget>[
           DrawerHeader(
-            child: Image.asset('images/icon.png')            
+            child: SvgPicture.asset("images/undraw_cookie_love_ulvn.svg"),
+            decoration: BoxDecoration(color: Theme.of(context).primaryColor)     
           ),
           _buildListTile(
               context, SearchRoute(SqlDatabaseProvider.db), Titles.foodSearchTitle, Icons.search),
@@ -35,7 +37,7 @@ class AppDrawer extends StatelessWidget {
   ListTile _buildListTile(
       BuildContext context, Widget widget, String title, IconData iconData) {
     return ListTile(
-        leading: Icon(iconData),
+        leading: CircleAvatar(child: Icon(iconData, color: Theme.of(context).accentColor)),
         title: Text(title),
         onTap: () {
           Navigator.pop(context);

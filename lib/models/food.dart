@@ -39,10 +39,10 @@ class Food {
       num maltoseValue,
       num dietaryFiberValue})
       : totalSugars = Nutrient("Total Sugars", totalSugarsValue),
-        fructose = Nutrient("Fructose", fructoseValue, color: Color(0xff29b6f6)),
-        sucrose = Nutrient("Sucrose", sucroseValue, color: Color(0xff5c6bc0)),
-        glucose = Nutrient("Glucose", glucoseValue, color: Color(0xffffa726)),
-        maltose = Nutrient("Maltose", maltoseValue,  color: Color(0xff8d6e63)),
+        fructose = Nutrient("Fructose", fructoseValue, color: Colors.blueAccent.shade100),// Color(0xff0094cc)),
+        sucrose = Nutrient("Sucrose", sucroseValue, color: Colors.purpleAccent.shade100), //Color(0xff88c399)),
+        glucose = Nutrient("Glucose", glucoseValue, color: Colors.amberAccent.shade100), //Color(0xffffd0b0)),
+        maltose = Nutrient("Maltose", maltoseValue,  color: Colors.orangeAccent.shade100), //Color(0xffc96f53)),
         lactose = Nutrient("Lactose", lactoseValue),
         protein = Nutrient("Protein", proteinValue),
         dietaryFiber = Nutrient("Dietary Fiber", dietaryFiberValue);

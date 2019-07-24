@@ -21,7 +21,7 @@ class _FavouriteFoodIconState extends State<FavouriteFoodIcon> {
     return IconButton(
         icon: Icon(
           widget.food.favourite ? Icons.favorite : Icons.favorite_border,
-          color: Theme.of(context).accentColor, 
+          color: Theme.of(context).accentColor,
         ),
         onPressed: () {
           setState(() {

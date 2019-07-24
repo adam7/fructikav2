@@ -19,8 +19,8 @@ class GlucoseFructoseGauge extends StatelessWidget {
             padding: EdgeInsets.all(10),
             child: Stack(
               children: <Widget>[
-                Align(alignment: Alignment.bottomLeft, child: Text(food.fructose.name)),
-                Align(alignment: Alignment.bottomRight, child: Text(food.glucose.name)),
+                Align(alignment: Alignment.bottomCenter, child: Text("${food.fructose.name}/${food.glucose.name} Balance")),
+
                 _buildPieChart()
               ],
             )));

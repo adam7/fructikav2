@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fructika/app_drawer.dart';
+import 'package:fructika/shared_preferences_helper.dart';
 import 'package:fructika/titles.dart';
 import 'package:fructika/database/database_provider.dart';
 import 'package:fructika/food_list.dart';
@@ -9,7 +10,9 @@ import 'widgets/fructika_app_bar.dart';
 
 class SearchRoute extends StatefulWidget {
   final DatabaseProvider databaseProvider;
-  SearchRoute(this.databaseProvider, {Key key}) : super(key: key);
+  final PreferencesHelper preferencesHelper;
+  
+  SearchRoute(this.databaseProvider, this.preferencesHelper, {Key key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => SearchRouteState();
@@ -32,7 +35,7 @@ class SearchRouteState extends State<SearchRoute> {
                       foods = [];
                     });
                   } else {
-                    widget.databaseProvider.searchFoods(text).then((result) {
+                    widget.databaseProvider.searchFoods(text, this.widget.preferencesHelper).then((result) {
                       setState(() {
                         foods = result;
                       });

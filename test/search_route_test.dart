@@ -4,11 +4,13 @@ import 'package:fructika/database/database_provider.dart';
 import 'package:fructika/favourite_food_icon.dart';
 import 'package:fructika/models/food.dart';
 import 'package:fructika/search_route.dart';
+import 'package:fructika/shared_preferences_helper.dart';
 import 'package:fructika/titles.dart';
 import 'package:fructika/widgets/fructika_app_bar.dart';
 import 'package:mockito/mockito.dart';
 
 class MockDatabaseProvider extends Mock implements DatabaseProvider {}
+class MockPreferencesHelper extends Mock implements PreferencesHelper {}
 
 final imageName = "group_44723";
 
@@ -31,9 +33,10 @@ final pear = Food(
 void main() {
   testWidgets('SearchRoute default layout', (WidgetTester tester) async {
     final mockDatabaseProvider = MockDatabaseProvider();
+    final mockPreferencesHelper = MockPreferencesHelper();
 
     await tester
-        .pumpWidget(MaterialApp(home: SearchRoute(mockDatabaseProvider)));
+        .pumpWidget(MaterialApp(home: SearchRoute(mockDatabaseProvider, mockPreferencesHelper)));
 
     expect(find.widgetWithText(FructikaAppBar, Titles.foodSearchTitle), findsOneWidget,
         reason: "app bar should have the right title");
@@ -49,9 +52,10 @@ void main() {
   testWidgets('SearchRoute when searching with less than minimum characters',
       (WidgetTester tester) async {
     final mockDatabaseProvider = MockDatabaseProvider();
+    final mockPreferencesHelper = MockPreferencesHelper();
 
     await tester
-        .pumpWidget(MaterialApp(home: SearchRoute(mockDatabaseProvider)));
+        .pumpWidget(MaterialApp(home: SearchRoute(mockDatabaseProvider, mockPreferencesHelper)));
 
     await tester.enterText(find.byType(TextField), 'p');
     await tester.enterText(find.byType(TextField), 'pe');
@@ -63,7 +67,7 @@ void main() {
 
     expect(find.byType(ListTile), findsNothing,
         reason: "no results should be shown");
-    verifyNever(mockDatabaseProvider.searchFoods(any));
+    verifyNever(mockDatabaseProvider.searchFoods(any, any));
   });
 
   testWidgets('SearchRoute when searching with more than minimum characters',
@@ -74,13 +78,15 @@ void main() {
     final pearResults = [pear];
 
     final mockDatabaseProvider = MockDatabaseProvider();
-    when(mockDatabaseProvider.searchFoods(peaText))
+    final mockPreferencesHelper = MockPreferencesHelper();
+
+    when(mockDatabaseProvider.searchFoods(peaText, any))
         .thenAnswer((_) async => Future.value(peaResults));
-    when(mockDatabaseProvider.searchFoods(pearText))
+    when(mockDatabaseProvider.searchFoods(pearText, any))
         .thenAnswer((_) async => Future.value(pearResults));
 
     await tester
-        .pumpWidget(MaterialApp(home: SearchRoute(mockDatabaseProvider)));
+        .pumpWidget(MaterialApp(home: SearchRoute(mockDatabaseProvider, mockPreferencesHelper)));
 
     await tester.enterText(find.byType(TextField), peaText);
     await tester.pumpAndSettle();

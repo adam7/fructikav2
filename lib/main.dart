@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fructika/database/sql_database_provider.dart';
 import 'package:fructika/search_route.dart';
+import 'package:fructika/shared_preferences_helper.dart';
 
 final fructikaPrimary = Colors.greenAccent.shade200;
 final fructikaPrimaryLight = Color(0xff9fffe0);
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         theme: _buildFructikaTheme(),
         title: 'Fructika',
-        home: SearchRoute(SqlDatabaseProvider.db));
+        home: SearchRoute(SqlDatabaseProvider.db, SharedPreferencesHelper()));
   }
 }
 

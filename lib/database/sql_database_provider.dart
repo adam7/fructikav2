@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:fructika/models/food.dart';
 import 'package:fructika/models/food_group.dart';
+import 'package:fructika/shared_preferences_helper.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -58,10 +59,11 @@ class SqlDatabaseProvider extends DatabaseProvider {
     return result.isNotEmpty ? result.map((f) => Food.fromMap(f)).toList() : [];
   }
 
-  Future<List<Food>> searchFoods(String searchText) async {
+  Future<List<Food>> searchFoods(String searchText, PreferencesHelper mockPreferencesHelper) async {
     final db = await database;
+    final includeUnknownFructose = await mockPreferencesHelper.getShowUnknown();
 
-    final searchQuery = """
+    String searchQuery = """
         SELECT Food.id AS id, Food.description AS description, Food.food_group AS food_group, Food.food_group_image AS food_group_image, 
           matchinfo, favourite, protein, total_sugars, sucrose, glucose, fructose, lactose, maltose, dietary_fiber
         FROM Food 
@@ -69,6 +71,10 @@ class SqlDatabaseProvider extends DatabaseProvider {
           INNER JOIN FoodGroup ON Food.food_group = FoodGroup.name 
         WHERE FoodGroup.enabled = 1
         """;
+
+    if(!includeUnknownFructose){
+      searchQuery += " AND fructose IS NOT NULL";
+    }
 
     final rows = await db.rawQuery(searchQuery, ["$searchText*"]);
 

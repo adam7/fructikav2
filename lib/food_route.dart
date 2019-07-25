@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fructika/database/sql_database_provider.dart';
 import 'package:fructika/favourite_food_icon.dart';
 import 'package:fructika/models/food.dart';
+import 'package:fructika/shared_preferences_helper.dart';
 import 'package:fructika/widgets/fructika_app_bar.dart';
 import 'package:fructika/widgets/glucose_fructose_gauge.dart';
 import 'package:fructika/widgets/nutrient_card.dart';
@@ -22,42 +23,42 @@ class HeroHeader implements SliverPersistentHeaderDelegate {
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Card(
-      clipBehavior: Clip.hardEdge,
+        clipBehavior: Clip.hardEdge,
         child: Stack(
-      fit: StackFit.expand,
-      children: [
-        Hero(
-          tag: food.description,
-          child: Image.asset(
-            food.imagePath,
-            fit: BoxFit.cover,
-          ),
-        ),
-        Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Colors.transparent,
-                Colors.black54,
-              ],
-              stops: [0.5, 1.0],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              tileMode: TileMode.repeated,
+          fit: StackFit.expand,
+          children: [
+            Hero(
+              tag: food.description,
+              child: Image.asset(
+                food.imagePath,
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-        ),
-        Positioned(
-          left: 16.0,
-          right: 16.0,
-          bottom: 16.0,
-          child: Text(
-            food.description,
-            style: TextStyle(fontSize: 32.0, color: Colors.white),
-          ),
-        )
-      ],
-    ));
+            Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Colors.transparent,
+                    Colors.black54,
+                  ],
+                  stops: [0.5, 1.0],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  tileMode: TileMode.repeated,
+                ),
+              ),
+            ),
+            Positioned(
+              left: 16.0,
+              right: 16.0,
+              bottom: 16.0,
+              child: Text(
+                food.description,
+                style: TextStyle(fontSize: 32.0, color: Colors.white),
+              ),
+            )
+          ],
+        ));
   }
 
   @override
@@ -71,7 +72,9 @@ class HeroHeader implements SliverPersistentHeaderDelegate {
 
 class FoodRoute extends StatelessWidget {
   final Food food;
-  FoodRoute({Key key, this.food}) : super(key: key);
+  final PreferencesHelper preferencesHelper;
+
+  FoodRoute(this.food, this.preferencesHelper, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +89,7 @@ class FoodRoute extends StatelessWidget {
           mini: true,
           child: FavouriteFoodIcon(
               food: food, databaseProvider: SqlDatabaseProvider.db)),
-              floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
     );
   }
 
@@ -105,7 +108,7 @@ class FoodRoute extends StatelessWidget {
               crossAxisCount: 2,
             ),
             delegate: SliverChildListDelegate(<Widget>[
-              NutrientCard(food.fructose),
+              NutrientCard(food.fructose, warningLevel:  preferencesHelper.getWarningLevel()),
               GlucoseFructoseGauge(food),
             ]),
           ),

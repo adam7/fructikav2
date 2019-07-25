@@ -15,9 +15,11 @@ class SettingsRoute extends StatelessWidget {
         appBar: FructikaAppBar(title: Text(Titles.settingsTitle)),
         body: Column(
           children: <Widget>[
+            WarningLevelSlider(preferencesHelper),
+            Divider(),
             ShowUnknownSwitchListTile(preferencesHelper),
             Divider(),
-            WarningLevelDropdownListTile(preferencesHelper),
+            // WarningLevelDropdownListTile(preferencesHelper),
             Divider()
           ],
         ),
@@ -25,33 +27,44 @@ class SettingsRoute extends StatelessWidget {
   }
 }
 
-class WarningLevelDropdownListTile extends StatelessWidget {
+class WarningLevelSlider extends StatefulWidget {
   final PreferencesHelper preferencesHelper;
-  final _itemValues = List<double>.generate(18, (index) => 2.0 + index);
 
-  WarningLevelDropdownListTile(this.preferencesHelper) : super();
+  WarningLevelSlider(this.preferencesHelper) : super();
 
-  _getItems() {
-    return _itemValues
-        .map((value) => DropdownMenuItem<double>(
-            value: value, child: Text("${value.toStringAsFixed(1)} g")))
-        .toList();
-  }
+  @override
+  _WarningLevelSliderState createState() => _WarningLevelSliderState();
+}
+
+class _WarningLevelSliderState extends State<WarningLevelSlider> {
+  double warningLevel;
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<double>(
-        future: preferencesHelper.getWarningLevel(),
+        future: widget.preferencesHelper.getWarningLevel(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return ListTile(
-                title: Text("Fructose warning level"),
-                trailing: DropdownButton<double>(
-                    value: snapshot.data,
-                    onChanged: (double value) {
-                      preferencesHelper.setWarningLevel(value);
-                    },
-                    items: _getItems()));
+            warningLevel = snapshot.data;
+            String formattedWarningLevel =
+                "${warningLevel.toStringAsFixed(1)} g";
+            return Column(children: <Widget>[
+              ListTile(
+                  title: Text("Fructose Warning Level"),
+                  trailing: Text(formattedWarningLevel)),
+              Slider(
+                  label: formattedWarningLevel,
+                  divisions: 40,
+                  min: 0,
+                  max: 20,
+                  value: warningLevel,
+                  onChanged: (double value) {
+                    widget.preferencesHelper.setWarningLevel(value);
+                    setState(() {
+                      warningLevel = value;
+                    });
+                  })
+            ]);
           } else {
             return CircularProgressIndicator();
           }
@@ -83,4 +96,3 @@ class ShowUnknownSwitchListTile extends StatelessWidget {
         });
   }
 }
-

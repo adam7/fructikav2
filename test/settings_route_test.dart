@@ -24,7 +24,7 @@ void main() {
     expect(find.widgetWithText(FructikaAppBar, Titles.settingsTitle),
         findsOneWidget,
         reason: "app bar should have the right title");
-    expect(find.byType(WarningLevelDropdownListTile), findsOneWidget,
+    expect(find.byType(WarningLevelSlider), findsOneWidget,
         reason: "Warning Level selector should be shown");
     expect(find.byType(ShowUnknownSwitchListTile), findsOneWidget,
         reason: "Show Unknown selector should be shown");
@@ -36,7 +36,7 @@ void main() {
       final mockPreferencesHelper = MockPreferencesHelper();
 
       await tester
-          .pumpWidget(WarningLevelDropdownListTile(mockPreferencesHelper));
+          .pumpWidget(WarningLevelSlider(mockPreferencesHelper));
 
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
     });
@@ -53,12 +53,12 @@ void main() {
 
         await tester.pumpWidget(MaterialApp(
             home: Scaffold(
-                body: WarningLevelDropdownListTile(mockPreferencesHelper))));
+                body: WarningLevelSlider(mockPreferencesHelper))));
 
         await tester.pumpAndSettle();
 
-        expect(find.byType(WarningLevelDropdownListTile), findsOneWidget);
-        expect(find.byWidgetPredicate((widget) => widget is DropdownButton && widget.value == warningLevel), findsOneWidget);
+        expect(find.byType(WarningLevelSlider), findsOneWidget);
+        expect(find.byWidgetPredicate((widget) => widget is Slider && widget.value == warningLevel), findsOneWidget);
       });
     });
   });

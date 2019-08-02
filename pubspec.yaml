@@ -30,8 +30,16 @@ dependencies:
 
 dev_dependencies:
   mockito: ^4.0.0
+  flutter_launcher_icons: "^0.7.2"
   flutter_test:
     sdk: flutter
+
+flutter_icons:
+  android: true 
+  ios: true
+  image_path_android: "images/icon_android.png"
+  image_path_ios: "images/icon_ios.png"
+  adaptive_icon_background: #69F0AE
   
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec

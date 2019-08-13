@@ -15,7 +15,7 @@ class HeaderCard extends StatelessWidget {
         clipBehavior: Clip.antiAlias,
         child: Stack(
           children: <Widget>[
-            Image.asset("images/dan-novac-629278-unsplash.jpg"),
+            Image.asset("images/dan-novac-629278.jpg"),
             Positioned(
                 top: 0,
                 left: 0,

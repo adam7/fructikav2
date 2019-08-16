@@ -23,13 +23,14 @@ class MyApp extends StatelessWidget {
 
 ThemeData _buildFructikaTheme() {
   final ThemeData base = ThemeData.light();
+
   return base.copyWith(
       appBarTheme: AppBarTheme(elevation: 5),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: Colors.white70,
         isDense: true,
-        border: OutlineInputBorder(          
+        border: OutlineInputBorder(
             borderSide: BorderSide(),
             borderRadius: BorderRadius.all(Radius.circular(7.5)),
             gapPadding: 5),
@@ -38,6 +39,11 @@ ThemeData _buildFructikaTheme() {
       primaryColor: fructikaPrimary,
       primaryColorDark: fructikaPrimaryDark,
       primaryColorLight: fructikaPrimaryLight,
+      sliderTheme: SliderThemeData.fromPrimaryColors(
+          primaryColor: fructikaPrimary,
+          primaryColorDark: fructikaPrimaryDark,
+          primaryColorLight: fructikaPrimaryLight,
+          valueIndicatorTextStyle: base.textTheme.title),
       textTheme: _buildFructikaTextTheme(base.textTheme),
       primaryTextTheme: _buildFructikaTextTheme(base.primaryTextTheme),
       buttonTheme: base.buttonTheme.copyWith(

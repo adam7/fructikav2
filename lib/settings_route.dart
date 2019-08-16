@@ -18,8 +18,6 @@ class SettingsRoute extends StatelessWidget {
             WarningLevelSlider(preferencesHelper),
             Divider(),
             ShowUnknownSwitchListTile(preferencesHelper),
-            Divider(),
-            // WarningLevelDropdownListTile(preferencesHelper),
             Divider()
           ],
         ),

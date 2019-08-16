@@ -38,7 +38,7 @@ coverage/
 **/android/local.properties
 **/android/**/GeneratedPluginRegistrant.java
 **/android/key.properties
-**/.keystore
+*.keystore
 
 # iOS/XCode related
 **/ios/**/*.mode1v3
@@ -72,3 +72,4 @@ coverage/
 !**/ios/**/default.pbxuser
 !**/ios/**/default.perspectivev3
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
+

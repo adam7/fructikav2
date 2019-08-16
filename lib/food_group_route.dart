@@ -69,7 +69,7 @@ class _FoodGroupCardState extends State<FoodGroupCard> {
           ),
           SwitchListTile(
               title: Text(widget.foodGroup.name),
-              subtitle: const Text('Enabled'),
+              subtitle: widget.foodGroup.enabled ? Text('Enabled') : Text('Disabled'),
               value: widget.foodGroup.enabled,
               onChanged: (bool value) {
                 setState(() {

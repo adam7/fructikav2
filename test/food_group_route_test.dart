@@ -23,7 +23,8 @@ void main() {
     await tester
         .pumpWidget(MaterialApp(home: FoodGroupRoute(mockDatabaseProvider)));
 
-    expect(find.widgetWithText(FructikaAppBar, Titles.foodGroupTitle), findsOneWidget,
+    expect(find.widgetWithText(FructikaAppBar, Titles.foodGroupTitle),
+        findsOneWidget,
         reason: "AppBar should have the right title");
 
     expect(find.byType(CircularProgressIndicator), findsOneWidget,
@@ -41,24 +42,49 @@ void main() {
 
     await tester.pump(const Duration(milliseconds: 1000));
 
-    expect(find.widgetWithText(FructikaAppBar, Titles.foodGroupTitle), findsOneWidget,
+    expect(find.widgetWithText(FructikaAppBar, Titles.foodGroupTitle),
+        findsOneWidget,
         reason: "AppBar should have the right title");
 
     final cardFinder = find.byType(Card);
     final switchListTileFinder =
         find.widgetWithText(SwitchListTile, enabledFoodGroup.name);
     final switchFinder = find.byWidgetPredicate(
-      (widget) => widget is Switch && widget.value == true,
+      (widget) => widget is Switch && widget.value == enabledFoodGroup.enabled,
       description: 'Switch is enabled',
     );
 
     expect(find.descendant(of: cardFinder, matching: switchListTileFinder),
         findsOneWidget,
         reason: "Card contains SwitchListTile with the food group name");
-    expect(find.descendant(of: cardFinder, matching: switchFinder),
-        findsOneWidget, reason: "Card contains Switch");
-            expect(find.descendant(of: cardFinder, matching: find.byType(Image)),
+    expect(
+        find.descendant(of: cardFinder, matching: switchFinder), findsOneWidget,
+        reason: "Card contains Switch");
+    expect(find.descendant(of: cardFinder, matching: find.byType(Image)),
         findsOneWidget);
     expect(find.byType(Image), findsOneWidget, reason: "Card contains Image");
+  });
+
+  testWidgets('FoodGroupRoute when switching FoodGroup from enabled to disabled',
+      (WidgetTester tester) async {
+    final mockDatabaseProvider = MockDatabaseProvider();
+
+    final enabledSwitchListTileFinder = find.widgetWithText(SwitchListTile, "Enabled");
+    final disabledSwitchListTileFinder = find.widgetWithText(SwitchListTile, "Disabled");
+
+    when(mockDatabaseProvider.getAllFoodGroups())
+        .thenAnswer((_) async => Future.value(foodGroups));
+
+    await tester
+        .pumpWidget(MaterialApp(home: FoodGroupRoute(mockDatabaseProvider)));
+
+    await tester.pump(const Duration(milliseconds: 1000));
+
+    expect(enabledSwitchListTileFinder, findsOneWidget, reason: "SwitchListTile has text Enabled");
+
+    await tester.tap(enabledSwitchListTileFinder);
+    await tester.pump();
+
+    expect(disabledSwitchListTileFinder, findsOneWidget, reason: "SwitchListTile has text Disabled");
   });
 }

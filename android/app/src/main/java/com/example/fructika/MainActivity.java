@@ -1,4 +1,4 @@
-package com.fructika.fructika;
+package com.fructika.Fructika;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;

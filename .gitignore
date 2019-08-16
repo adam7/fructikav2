@@ -38,6 +38,7 @@ coverage/
 **/android/local.properties
 **/android/**/GeneratedPluginRegistrant.java
 **/android/key.properties
+**/.keystore
 
 # iOS/XCode related
 **/ios/**/*.mode1v3

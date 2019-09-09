@@ -17,6 +17,7 @@ There are no dependencies to build the app, apart from Flutter and the source, s
 * Run the app
 * ~~Profit?~~
 
+[![Actions Status](https://github.com/adam7/fructikav2/workflows/Build%20and%20Test/badge.svg)](https://github.com/adam7/fructikav2/actions)
 [![codecov](https://codecov.io/gh/adam7/fructikav2/branch/master/graph/badge.svg)](https://codecov.io/gh/adam7/fructikav2)
 
 ![icon](android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png)

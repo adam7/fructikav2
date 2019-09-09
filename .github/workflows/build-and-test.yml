@@ -1,8 +1,8 @@
 on: push
-name: Build and test Fructika
+name: Build and Test
 jobs:
   build:
-    name: Build and test on ${{ matrix.os }}
+    name: Build and Test on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:fructika/favourite_food_icon.dart';
 import 'package:fructika/shared_preferences_helper.dart';
-import 'database/sql_database_provider.dart';
+import 'package:fructika/database/sql_database_provider.dart';
 import 'package:fructika/food_route.dart';
 import 'package:fructika/models/food.dart';
-
-import 'favourite_food_icon.dart';
 
 class FoodList extends StatefulWidget {
   final List<Food> foods;

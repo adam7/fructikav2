@@ -5,8 +5,7 @@ import 'package:fructika/titles.dart';
 import 'package:fructika/database/database_provider.dart';
 import 'package:fructika/food_list.dart';
 import 'package:fructika/models/food.dart';
-
-import 'widgets/fructika_app_bar.dart';
+import 'package:fructika/widgets/fructika_app_bar.dart';
 
 class SearchRoute extends StatefulWidget {
   final DatabaseProvider databaseProvider;

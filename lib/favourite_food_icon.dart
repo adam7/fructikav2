@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'database/database_provider.dart';
-import 'models/food.dart';
+import 'package:fructika/models/food.dart';
+import 'package:fructika/database/database_provider.dart';
+
 
 class FavouriteFoodIcon extends StatefulWidget {
   final Food food;

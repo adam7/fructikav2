@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'nutrient.dart';
+import 'package:fructika/models/nutrient.dart';
 
 class Food {
   String id;

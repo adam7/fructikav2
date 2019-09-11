@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fructika/app_drawer.dart';
 import 'package:fructika/database/database_provider.dart';
 import 'package:fructika/widgets/fructika_app_bar.dart';
-import 'database/sql_database_provider.dart';
+import 'package:fructika/database/sql_database_provider.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:fructika/models/food_group.dart';
 

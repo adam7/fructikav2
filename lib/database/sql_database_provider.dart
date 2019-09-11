@@ -7,8 +7,8 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqlite_rank/sqlite_rank.dart';
-import 'database_provider.dart';
-import 'migrations.dart';
+import 'package:fructika/database/database_provider.dart';
+import 'package:fructika/database/migrations.dart';
 
 class SqlDatabaseProvider extends DatabaseProvider {
   static final SqlDatabaseProvider db = SqlDatabaseProvider._();

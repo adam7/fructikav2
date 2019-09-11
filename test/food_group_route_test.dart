@@ -13,7 +13,7 @@ void main() {
   final FoodGroup enabledFoodGroup = FoodGroup(
       name: "Enabled Food Group",
       enabled: true,
-      image: "images/group_156096.jpg");
+     image: "images/group_156096.jpg");
 
   final List<FoodGroup> foodGroups = [enabledFoodGroup];
 

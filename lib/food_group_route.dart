@@ -9,7 +9,7 @@ import 'package:fructika/models/food_group.dart';
 class FoodGroupRoute extends StatelessWidget {
   final DatabaseProvider databaseProvider;
 
-  FoodGroupRoute(this.databaseProvider, {Key key}): super(key:key);
+  FoodGroupRoute(this.databaseProvider, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,7 @@ class FoodGroupRoute extends StatelessWidget {
       itemBuilder: (BuildContext context, int index) {
         return FoodGroupCard(foodGroup: foodGroups[index]);
       },
-      itemCount: foodGroups.length,      
+      itemCount: foodGroups.length,
     );
   }
 }
@@ -56,29 +56,29 @@ class _FoodGroupCardState extends State<FoodGroupCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 12,
-      margin: EdgeInsets.all(12.0),
-      clipBehavior: Clip.antiAlias,
-      child: Column(
-        children: <Widget>[
-          Image.asset(
-            widget.foodGroup.image,
-            width: 600,
-            fit: BoxFit.scaleDown,
-
+        elevation: 12,
+        margin: EdgeInsets.all(12.0),
+        clipBehavior: Clip.antiAlias,
+          child: Wrap(
+            children: <Widget>[
+              Image.asset(
+                widget.foodGroup.image,
+                fit: BoxFit.scaleDown,
+              ),
+              SwitchListTile(
+                  title: Text(widget.foodGroup.name),
+                  subtitle: widget.foodGroup.enabled
+                      ? Text('Enabled')
+                      : Text('Disabled'),
+                  value: widget.foodGroup.enabled,
+                  onChanged: (bool value) {
+                    setState(() {
+                      widget.foodGroup.enabled = value;
+                    });
+                    SqlDatabaseProvider.db.updateFoodGroup(widget.foodGroup);
+                  })
+            ],
           ),
-          SwitchListTile(
-              title: Text(widget.foodGroup.name),
-              subtitle: widget.foodGroup.enabled ? Text('Enabled') : Text('Disabled'),
-              value: widget.foodGroup.enabled,
-              onChanged: (bool value) {
-                setState(() {
-                  widget.foodGroup.enabled = value;
-                });
-                SqlDatabaseProvider.db.updateFoodGroup(widget.foodGroup);
-              })
-        ],
-      ),
-    );
+        );
   }
 }

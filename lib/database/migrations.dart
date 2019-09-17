@@ -1,19 +1,17 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/services.dart';
+import 'package:fructika/database/sql_create_builder.dart';
+import 'package:fructika/database/sql_insert_builder.dart';
 import 'package:fructika/models/food.dart';
 import 'package:fructika/models/food_group.dart';
 import 'package:sqflite/sqflite.dart';
-
-final createFoodSearch =
-    "CREATE VIRTUAL TABLE FoodSearch using fts4(tokenize=porter, id TEXT, description TEXT, notindexed=id)";
-final createFood =
-    "CREATE TABLE Food (id TEXT PRIMARY KEY, description TEXT, food_group TEXT, food_group_image TEXT, "
-    "protein REAL, total_sugars REAL, sucrose REAL, glucose REAL, fructose REAL, lactose REAL, maltose REAL, "
-    "dietary_fiber REAL, favourite BIT)";
-final createFoodGroup =
-    "CREATE TABLE FoodGroup (id INTEGER PRIMARY KEY, name TEXT, image TEXT, enabled BIT)";
-
-final createScripts = [createFoodSearch, createFood, createFoodGroup];
+    
+final createScripts = [
+  SqlCreateBuilder.buildCreateFoodSearch(Platform.isIOS),
+  SqlCreateBuilder.createFood,
+  SqlCreateBuilder.createFoodGroup
+];
 
 createTables(Database db, int version) async {
   createScripts.forEach((script) async => await db.execute(script));
@@ -21,7 +19,8 @@ createTables(Database db, int version) async {
 
 populateTables(Database db, int version) async {
   await populateFoods(db, await rootBundle.loadString('json/foods.json'));
-  await populateFoodGroups(db, await rootBundle.loadString('json/food_groups.json'));
+  await populateFoodGroups(
+      db, await rootBundle.loadString('json/food_groups.json'));
 }
 
 populateFoods(final Database db, final String foodsJSON) async {
@@ -34,10 +33,7 @@ populateFoods(final Database db, final String foodsJSON) async {
   final batch = db.batch();
 
   for (var food in foods) {
-    batch.rawInsert(
-        "INSERT Into Food (id, description, food_group, food_group_image, favourite,"
-        " protein, total_sugars, sucrose, glucose, fructose, lactose, maltose, dietary_fiber)"
-        " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
+    batch.rawInsert(SqlInsertBuilder.foodInsert,
         [
           food.id,
           food.description,
@@ -54,9 +50,7 @@ populateFoods(final Database db, final String foodsJSON) async {
           food.dietaryFiber.value
         ]);
 
-    batch.rawInsert(
-        "INSERT Into FoodSearch (id,description)"
-        " VALUES (?,?)",
+    batch.rawInsert(SqlInsertBuilder.foodSearchInsert,
         [
           food.id,
           food.description,

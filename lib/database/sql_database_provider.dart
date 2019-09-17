@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:fructika/database/sql_select_builder.dart';
 import 'package:fructika/models/food.dart';
 import 'package:fructika/models/food_group.dart';
 import 'package:fructika/shared_preferences_helper.dart';
@@ -59,22 +60,12 @@ class SqlDatabaseProvider extends DatabaseProvider {
     return result.isNotEmpty ? result.map((f) => Food.fromMap(f)).toList() : [];
   }
 
-  Future<List<Food>> searchFoods(String searchText, PreferencesHelper mockPreferencesHelper) async {
+  Future<List<Food>> searchFoods(
+      String searchText, PreferencesHelper preferencesHelper) async {
     final db = await database;
-    final includeUnknownFructose = await mockPreferencesHelper.getShowUnknown();
-
-    String searchQuery = """
-        SELECT Food.id AS id, Food.description AS description, Food.food_group AS food_group, Food.food_group_image AS food_group_image, 
-          matchinfo, favourite, protein, total_sugars, sucrose, glucose, fructose, lactose, maltose, dietary_fiber
-        FROM Food 
-          JOIN (SELECT id, matchinfo(FoodSearch) as matchinfo FROM FoodSearch WHERE FoodSearch MATCH ?) USING(id) 
-          INNER JOIN FoodGroup ON Food.food_group = FoodGroup.name 
-        WHERE FoodGroup.enabled = 1
-        """;
-
-    if(!includeUnknownFructose){
-      searchQuery += " AND fructose IS NOT NULL";
-    }
+    final includeUnknownFructose = await preferencesHelper.getShowUnknown();
+    final searchQuery =
+        SqlSelectBuilder.buildSearchQuery(Platform.isIOS, includeUnknownFructose);
 
     final rows = await db.rawQuery(searchQuery, ["$searchText*"]);
 
@@ -84,7 +75,9 @@ class SqlDatabaseProvider extends DatabaseProvider {
   Future<List<Food>> _mapAndSortFoods(List<Map<String, dynamic>> rows) async {
     final foods = rows.map((c) => Food.fromMap(c)).toList();
 
-    foods.sort((f1, f2) => rank(f1.matchinfo).compareTo(rank(f2.matchinfo)));
+    if (!Platform.isIOS) {
+      foods.sort((f1, f2) => rank(f1.matchinfo).compareTo(rank(f2.matchinfo)));
+    }
 
     return foods;
   }

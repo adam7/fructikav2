@@ -10,6 +10,7 @@ import 'package:fructika/widgets/sugars_card.dart';
 import 'package:fructika/widgets/sugars_chart.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/foundation.dart';
+import 'package:provider/provider.dart';
 
 class HeroHeader implements SliverPersistentHeaderDelegate {
   final Food food;
@@ -72,9 +73,7 @@ class HeroHeader implements SliverPersistentHeaderDelegate {
 
 class FoodRoute extends StatelessWidget {
   final Food food;
-  final PreferencesHelper preferencesHelper;
-
-  FoodRoute(this.food, this.preferencesHelper, {Key key}) : super(key: key);
+  FoodRoute(this.food, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -94,6 +93,8 @@ class FoodRoute extends StatelessWidget {
   }
 
   Widget _scrollView(BuildContext context) {
+    final preferencesHelper = Provider.of<PreferencesHelper>(context);
+
     // Use LayoutBuilder to get the hero header size while keeping the image aspect-ratio
     return Container(
       child: CustomScrollView(

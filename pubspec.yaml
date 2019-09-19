@@ -25,6 +25,7 @@ dependencies:
   charts_flutter: ^0.6.0
   flutter_svg: ^0.13.1
   sentry: ^2.1.0
+  provider: ^3.0.0
 
   sqlite_rank: 
     git: git://github.com/adam7/sqlite_rank.git

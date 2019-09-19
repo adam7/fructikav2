@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:fructika/favourite_food_icon.dart';
-import 'package:fructika/shared_preferences_helper.dart';
 import 'package:fructika/database/sql_database_provider.dart';
 import 'package:fructika/food_route.dart';
 import 'package:fructika/models/food.dart';
@@ -31,7 +30,7 @@ class FoodListState extends State<FoodList> {
     return ListTile(
         onTap: () {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => FoodRoute(food, SharedPreferencesHelper())));
+              MaterialPageRoute(builder: (context) => FoodRoute(food)));
         },
         leading: Hero(
             tag: food.description,

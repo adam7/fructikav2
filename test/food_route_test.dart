@@ -6,6 +6,7 @@ import 'package:fructika/models/food.dart';
 import 'package:fructika/shared_preferences_helper.dart';
 import 'package:fructika/widgets/nutrient_card.dart';
 import 'package:mockito/mockito.dart';
+import 'package:provider/provider.dart';
 
 final imageName = "group_44723";
 final testFood = Food(
@@ -20,16 +21,19 @@ final testFood = Food(
     sucroseValue: 1.0,
     totalSugarsValue: 4.0,
     lactoseValue: 1.0,
-    proteinValue: 1.0
-    );
+    proteinValue: 1.0);
 
 class MockPreferencesHelper extends Mock implements PreferencesHelper {}
 
-
 void main() {
-  /// Skipping until we can get charts rendering in the 
+  /// Skipping until we can get charts rendering in the
   testWidgets('FoodRoute', (WidgetTester tester) async {
-    await tester.pumpWidget(MaterialApp(home: FoodRoute(testFood, MockPreferencesHelper())));
+   final mockPreferencesHelper = MockPreferencesHelper();
+
+    await tester.pumpWidget(Provider<PreferencesHelper>.value(
+      value: mockPreferencesHelper,
+      child: MaterialApp(home: FoodRoute(testFood)),
+    ));
 
     expect(find.text(testFood.description), findsOneWidget,
         reason: "food description should be shown");
@@ -38,7 +42,11 @@ void main() {
     expect(find.byType(FavouriteFoodIcon), findsOneWidget,
         reason: "favourite food icon widget should be shown");
 
-    expect(find.widgetWithText(NutrientCard, testFood.fructose.name), findsOneWidget);
-    expect(find.widgetWithText(NutrientCard, testFood.lactose.name, skipOffstage: false), findsOneWidget);
+    expect(find.widgetWithText(NutrientCard, testFood.fructose.name),
+        findsOneWidget);
+    expect(
+        find.widgetWithText(NutrientCard, testFood.lactose.name,
+            skipOffstage: false),
+        findsOneWidget);
   });
 }

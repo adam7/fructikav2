@@ -5,6 +5,7 @@ import 'package:fructika/shared_preferences_helper.dart';
 import 'package:fructika/titles.dart';
 import 'package:fructika/widgets/fructika_app_bar.dart';
 import 'package:mockito/mockito.dart';
+import 'package:provider/provider.dart';
 
 class MockPreferencesHelper extends Mock implements PreferencesHelper {}
 
@@ -18,8 +19,10 @@ void main() {
     when(mockPreferencesHelper.getWarningLevel())
         .thenAnswer((_) => Future.value(10));
 
-    await tester.pumpWidget(MaterialApp(
-        home: SettingsRoute(preferencesHelper: MockPreferencesHelper())));
+    await tester.pumpWidget(Provider<PreferencesHelper>.value(
+      value: mockPreferencesHelper,
+      child: MaterialApp(home: SettingsRoute()),
+    ));
 
     expect(find.widgetWithText(FructikaAppBar, Titles.settingsTitle),
         findsOneWidget,
@@ -35,13 +38,16 @@ void main() {
         (WidgetTester tester) async {
       final mockPreferencesHelper = MockPreferencesHelper();
 
-      await tester
-          .pumpWidget(WarningLevelSlider(mockPreferencesHelper));
+      await tester.pumpWidget(Provider<PreferencesHelper>.value(
+        value: mockPreferencesHelper,
+        child: WarningLevelSlider(),
+      ));
 
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
     });
 
-    testWidgets("when a value is returned a WarningLevelDropdownListTile is shown",
+    testWidgets(
+        "when a value is returned a WarningLevelDropdownListTile is shown",
         (WidgetTester tester) async {
       await tester.runAsync(() async {
         final mockPreferencesHelper = MockPreferencesHelper();
@@ -51,14 +57,18 @@ void main() {
         when(mockPreferencesHelper.getWarningLevel())
             .thenAnswer((_) async => Future.value(warningLevel));
 
-        await tester.pumpWidget(MaterialApp(
-            home: Scaffold(
-                body: WarningLevelSlider(mockPreferencesHelper))));
+        await tester.pumpWidget(Provider<PreferencesHelper>.value(
+          value: mockPreferencesHelper,
+          child: MaterialApp(home: Scaffold(body: WarningLevelSlider())),
+        ));
 
         await tester.pumpAndSettle();
 
         expect(find.byType(WarningLevelSlider), findsOneWidget);
-        expect(find.byWidgetPredicate((widget) => widget is Slider && widget.value == warningLevel), findsOneWidget);
+        expect(
+            find.byWidgetPredicate(
+                (widget) => widget is Slider && widget.value == warningLevel),
+            findsOneWidget);
       });
     });
   });
@@ -68,7 +78,10 @@ void main() {
         (WidgetTester tester) async {
       final mockPreferencesHelper = MockPreferencesHelper();
 
-      await tester.pumpWidget(ShowUnknownSwitchListTile(mockPreferencesHelper));
+      await tester.pumpWidget(Provider<PreferencesHelper>.value(
+        value: mockPreferencesHelper,
+        child: ShowUnknownSwitchListTile(),
+      ));
 
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
     });
@@ -81,13 +94,17 @@ void main() {
         when(mockPreferencesHelper.getShowUnknown())
             .thenAnswer((_) async => Future.value(true));
 
-        await tester.pumpWidget(MaterialApp(
-            home: Scaffold(
-                body: ShowUnknownSwitchListTile(mockPreferencesHelper))));
+        await tester.pumpWidget(Provider<PreferencesHelper>.value(
+          value: mockPreferencesHelper,
+          child: MaterialApp(home: Scaffold(body: ShowUnknownSwitchListTile())),
+        ));
 
         await tester.pumpAndSettle();
 
-        expect(find.byWidgetPredicate((widget) => widget is SwitchListTile && widget.value == true), findsOneWidget);
+        expect(
+            find.byWidgetPredicate(
+                (widget) => widget is SwitchListTile && widget.value == true),
+            findsOneWidget);
       });
     });
   });

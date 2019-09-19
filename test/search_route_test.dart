@@ -8,6 +8,7 @@ import 'package:fructika/shared_preferences_helper.dart';
 import 'package:fructika/titles.dart';
 import 'package:fructika/widgets/fructika_app_bar.dart';
 import 'package:mockito/mockito.dart';
+import 'package:provider/provider.dart';
 
 class MockDatabaseProvider extends Mock implements DatabaseProvider {}
 class MockPreferencesHelper extends Mock implements PreferencesHelper {}
@@ -35,8 +36,10 @@ void main() {
     final mockDatabaseProvider = MockDatabaseProvider();
     final mockPreferencesHelper = MockPreferencesHelper();
 
-    await tester
-        .pumpWidget(MaterialApp(home: SearchRoute(mockDatabaseProvider, mockPreferencesHelper)));
+    await tester.pumpWidget(Provider<PreferencesHelper>.value(
+      value: mockPreferencesHelper,
+      child: MaterialApp(home: SearchRoute(mockDatabaseProvider)),
+    ));
 
     expect(find.widgetWithText(FructikaAppBar, Titles.foodSearchTitle), findsOneWidget,
         reason: "app bar should have the right title");
@@ -54,8 +57,10 @@ void main() {
     final mockDatabaseProvider = MockDatabaseProvider();
     final mockPreferencesHelper = MockPreferencesHelper();
 
-    await tester
-        .pumpWidget(MaterialApp(home: SearchRoute(mockDatabaseProvider, mockPreferencesHelper)));
+    await tester.pumpWidget(Provider<PreferencesHelper>.value(
+      value: mockPreferencesHelper,
+      child: MaterialApp(home: SearchRoute(mockDatabaseProvider)),
+    ));
 
     await tester.enterText(find.byType(TextField), 'p');
     await tester.enterText(find.byType(TextField), 'pe');
@@ -85,8 +90,10 @@ void main() {
     when(mockDatabaseProvider.searchFoods(pearText, any))
         .thenAnswer((_) async => Future.value(pearResults));
 
-    await tester
-        .pumpWidget(MaterialApp(home: SearchRoute(mockDatabaseProvider, mockPreferencesHelper)));
+    await tester.pumpWidget(Provider<PreferencesHelper>.value(
+      value: mockPreferencesHelper,
+      child: MaterialApp(home: SearchRoute(mockDatabaseProvider)),
+    ));
 
     await tester.enterText(find.byType(TextField), peaText);
     await tester.pumpAndSettle();

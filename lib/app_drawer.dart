@@ -5,15 +5,13 @@ import 'package:fructika/favourites_route.dart';
 import 'package:fructika/food_group_route.dart';
 import 'package:fructika/search_route.dart';
 import 'package:fructika/settings_route.dart';
-import 'package:fructika/shared_preferences_helper.dart';
 import 'package:fructika/titles.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class AppDrawer extends StatelessWidget {
-  final preferencesHelper = SharedPreferencesHelper();
   
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {    
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
@@ -23,13 +21,13 @@ class AppDrawer extends StatelessWidget {
             decoration: BoxDecoration(color: Theme.of(context).primaryColor)     
           ),
           _buildListTile(
-              context, SearchRoute(SqlDatabaseProvider.db, preferencesHelper), Titles.foodSearchTitle, Icons.search),
+              context, SearchRoute(SqlDatabaseProvider.db), Titles.foodSearchTitle, Icons.search),
           _buildListTile(context, FavouritesRoute(), Titles.favouriteTitle,
               Icons.favorite),
           _buildListTile(
               context, FoodGroupRoute(SqlDatabaseProvider.db), Titles.foodGroupTitle, Icons.group),
           _buildListTile(
-              context, SettingsRoute(preferencesHelper: preferencesHelper), Titles.settingsTitle, Icons.settings),
+              context, SettingsRoute(), Titles.settingsTitle, Icons.settings),
           _buildListTile(context, AboutRoute(), Titles.aboutTitle, Icons.info)
         ],
       ),

@@ -3,11 +3,10 @@ import 'package:fructika/app_drawer.dart';
 import 'package:fructika/shared_preferences_helper.dart';
 import 'package:fructika/titles.dart';
 import 'package:fructika/widgets/fructika_app_bar.dart';
+import 'package:provider/provider.dart';
 
 class SettingsRoute extends StatelessWidget {
-  final PreferencesHelper preferencesHelper;
-
-  SettingsRoute({Key key, @required this.preferencesHelper}) : super(key: key);
+  SettingsRoute({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,9 +14,9 @@ class SettingsRoute extends StatelessWidget {
         appBar: FructikaAppBar(title: Text(Titles.settingsTitle)),
         body: Column(
           children: <Widget>[
-            WarningLevelSlider(preferencesHelper),
+            WarningLevelSlider(),
             Divider(),
-            ShowUnknownSwitchListTile(preferencesHelper),
+            ShowUnknownSwitchListTile(),
             Divider()
           ],
         ),
@@ -26,9 +25,7 @@ class SettingsRoute extends StatelessWidget {
 }
 
 class WarningLevelSlider extends StatefulWidget {
-  final PreferencesHelper preferencesHelper;
-
-  WarningLevelSlider(this.preferencesHelper) : super();
+  WarningLevelSlider() : super();
 
   @override
   _WarningLevelSliderState createState() => _WarningLevelSliderState();
@@ -39,8 +36,10 @@ class _WarningLevelSliderState extends State<WarningLevelSlider> {
 
   @override
   Widget build(BuildContext context) {
+    final preferencesHelper = Provider.of<PreferencesHelper>(context);
+
     return FutureBuilder<double>(
-        future: widget.preferencesHelper.getWarningLevel(),
+        future: preferencesHelper.getWarningLevel(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             warningLevel = snapshot.data;
@@ -57,7 +56,7 @@ class _WarningLevelSliderState extends State<WarningLevelSlider> {
                   max: 20,
                   value: warningLevel,
                   onChanged: (double value) {
-                    widget.preferencesHelper.setWarningLevel(value);
+                    preferencesHelper.setWarningLevel(value);
                     setState(() {
                       warningLevel = value;
                     });
@@ -71,12 +70,10 @@ class _WarningLevelSliderState extends State<WarningLevelSlider> {
 }
 
 class ShowUnknownSwitchListTile extends StatelessWidget {
-  final PreferencesHelper preferencesHelper;
-
-  ShowUnknownSwitchListTile(this.preferencesHelper) : super();
-
   @override
   Widget build(BuildContext context) {
+    final preferencesHelper = Provider.of<PreferencesHelper>(context);
+
     return FutureBuilder<bool>(
         future: preferencesHelper.getShowUnknown(),
         builder: (context, snapshot) {

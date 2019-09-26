@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fructika/favourite_food_icon.dart';
-import 'package:fructika/database/sql_database_provider.dart';
+import 'package:fructika/widgets/favourite_food_icon.dart';
 import 'package:fructika/food_route.dart';
 import 'package:fructika/models/food.dart';
 
@@ -40,7 +39,6 @@ class FoodListState extends State<FoodList> {
           food.description,
           style: _biggerFont,
         ),
-        trailing: FavouriteFoodIcon(
-            food: food, databaseProvider: SqlDatabaseProvider.db));
+        trailing: FavouriteFoodIcon(food: food));
   }
 }

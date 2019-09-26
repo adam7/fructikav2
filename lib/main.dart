@@ -1,9 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:fructika/database/sql_database_provider.dart';
-import 'package:fructika/search_route.dart';
-import 'package:fructika/shared_preferences_helper.dart';
-import 'package:fructika/theme_data.dart';
+import 'package:fructika/database/repository.dart';
+import 'package:fructika/database/sql_repository.dart';
+import 'package:fructika/startup_route.dart';
+import 'package:fructika/utilities/shared_preferences_helper.dart';
+import 'package:fructika/utilities/theme_data.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry/sentry.dart';
 
@@ -23,12 +24,13 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
         providers: [
           Provider<PreferencesHelper>.value(value: SharedPreferencesHelper()),
-          Provider<SentryClient>.value(value: sentry)
+          Provider<SentryClient>.value(value: sentry),
+          Provider<Repository>.value(value: SqlRepository(initDB()))
         ],
         child: MaterialApp(
             theme: buildFructikaTheme(),
             title: 'Fructika',
-            home: SearchRoute(SqlDatabaseProvider.db)));
+            home: StartupRoute()));
   }
 }
 
@@ -48,9 +50,11 @@ void main() async {
   runZoned<Future<Null>>(() async {
     runApp(MyApp());
   }, onError: (error, stackTrace) async {
-    await sentry.captureException(
-      exception: error,
-      stackTrace: stackTrace,
-    );
+    if (!isInDebugMode) {
+      await sentry.captureException(
+        exception: error,
+        stackTrace: stackTrace,
+      );
+    }
   });
 }

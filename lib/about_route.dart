@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:fructika/app_drawer.dart';
-import 'package:fructika/titles.dart';
+import 'package:fructika/utilities/titles.dart';
 import 'package:fructika/widgets/fructika_app_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';

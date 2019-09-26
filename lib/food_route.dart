@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:fructika/database/sql_database_provider.dart';
-import 'package:fructika/favourite_food_icon.dart';
+import 'package:fructika/widgets/favourite_food_icon.dart';
 import 'package:fructika/models/food.dart';
-import 'package:fructika/shared_preferences_helper.dart';
+import 'package:fructika/utilities/shared_preferences_helper.dart';
 import 'package:fructika/widgets/fructika_app_bar.dart';
 import 'package:fructika/widgets/glucose_fructose_gauge.dart';
 import 'package:fructika/widgets/nutrient_card.dart';
@@ -86,8 +85,7 @@ class FoodRoute extends StatelessWidget {
           onPressed: () {},
           backgroundColor: Theme.of(context).primaryColorLight,
           mini: true,
-          child: FavouriteFoodIcon(
-              food: food, databaseProvider: SqlDatabaseProvider.db)),
+          child: FavouriteFoodIcon(food: food)),
       floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
     );
   }
@@ -109,7 +107,8 @@ class FoodRoute extends StatelessWidget {
               crossAxisCount: 2,
             ),
             delegate: SliverChildListDelegate(<Widget>[
-              NutrientCard(food.fructose, warningLevel:  preferencesHelper.getWarningLevel()),
+              NutrientCard(food.fructose,
+                  warningLevel: preferencesHelper.getWarningLevel()),
               GlucoseFructoseGauge(food),
             ]),
           ),

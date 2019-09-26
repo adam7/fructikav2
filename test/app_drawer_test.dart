@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fructika/app_drawer.dart';
-import 'package:fructika/titles.dart';
+import 'package:fructika/utilities/titles.dart';
 
 void main() {
   testWidgets('App drawer has all the right menu items',

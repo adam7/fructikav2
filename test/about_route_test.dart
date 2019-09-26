@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fructika/about_route.dart';
-import 'package:fructika/titles.dart';
+import 'package:fructika/utilities/titles.dart';
 import 'package:fructika/widgets/fructika_app_bar.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 

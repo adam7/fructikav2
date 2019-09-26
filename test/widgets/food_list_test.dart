@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fructika/food_list.dart';
-import 'test_utils.dart';
+import 'package:fructika/database/repository.dart';
+import 'package:fructika/widgets/food_list.dart';
+import 'package:mockito/mockito.dart';
+import 'package:provider/provider.dart';
+import '../test_utils.dart';
+
+class MockRepository extends Mock implements Repository {}
 
 void main() {
   testWidgets('FoodList', (WidgetTester tester) async {
@@ -9,8 +14,11 @@ void main() {
     final _scaffoldKey = GlobalKey<ScaffoldState>();
     final foods = [TestFoodData.favouriteFood, TestFoodData.unFavouriteFood];
 
-    await tester.pumpWidget(MaterialApp(
-        home: Scaffold(key: _scaffoldKey, body: FoodList(foods: foods))));
+    await tester.pumpWidget(Provider<Repository>.value(
+      value: MockRepository(),
+      child: MaterialApp(
+          home: Scaffold(key: _scaffoldKey, body: FoodList(foods: foods))),
+    ));
 
     final listTiles = find.byType(ListTile);
 
@@ -19,7 +27,7 @@ void main() {
 
     final favouriteTile =
         find.widgetWithText(ListTile, TestFoodData.favouriteFood.description);
-        
+
     expect(
         find.descendant(
             of: favouriteTile, matching: find.byIcon(Icons.favorite)),

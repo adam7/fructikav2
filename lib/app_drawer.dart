@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:fructika/about_route.dart';
-import 'package:fructika/database/sql_database_provider.dart';
 import 'package:fructika/favourites_route.dart';
 import 'package:fructika/food_group_route.dart';
 import 'package:fructika/search_route.dart';
 import 'package:fructika/settings_route.dart';
-import 'package:fructika/titles.dart';
+import 'package:fructika/utilities/titles.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class AppDrawer extends StatelessWidget {
-  
+class AppDrawer extends StatelessWidget {  
   @override
   Widget build(BuildContext context) {    
     return Drawer(
@@ -21,14 +19,14 @@ class AppDrawer extends StatelessWidget {
             decoration: BoxDecoration(color: Theme.of(context).primaryColor)     
           ),
           _buildListTile(
-              context, SearchRoute(SqlDatabaseProvider.db), Titles.foodSearchTitle, Icons.search),
+              context, SearchRoute(), Titles.foodSearchTitle, Icons.search),
           _buildListTile(context, FavouritesRoute(), Titles.favouriteTitle,
               Icons.favorite),
           _buildListTile(
-              context, FoodGroupRoute(SqlDatabaseProvider.db), Titles.foodGroupTitle, Icons.group),
+              context, FoodGroupRoute(), Titles.foodGroupTitle, Icons.group),
           _buildListTile(
               context, SettingsRoute(), Titles.settingsTitle, Icons.settings),
-          _buildListTile(context, AboutRoute(), Titles.aboutTitle, Icons.info)
+          _buildListTile(context, AboutRoute(), Titles.aboutTitle, Icons.info),
         ],
       ),
     );

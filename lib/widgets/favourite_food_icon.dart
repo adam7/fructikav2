@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fructika/models/food.dart';
-import 'package:fructika/database/database_provider.dart';
-
+import 'package:fructika/database/repository.dart';
+import 'package:provider/provider.dart';
 
 class FavouriteFoodIcon extends StatefulWidget {
   final Food food;
-  final DatabaseProvider databaseProvider;
 
-  const FavouriteFoodIcon(
-      {Key key, @required this.food, @required this.databaseProvider})
-      : super(key: key);
+  const FavouriteFoodIcon({Key key, @required this.food}) : super(key: key);
 
   @override
   _FavouriteFoodIconState createState() => _FavouriteFoodIconState();
@@ -19,6 +16,8 @@ class FavouriteFoodIcon extends StatefulWidget {
 class _FavouriteFoodIconState extends State<FavouriteFoodIcon> {
   @override
   Widget build(BuildContext context) {
+    final repository = Provider.of<Repository>(context);
+
     return IconButton(
         icon: Icon(
           widget.food.favourite ? Icons.favorite : Icons.favorite_border,
@@ -28,7 +27,7 @@ class _FavouriteFoodIconState extends State<FavouriteFoodIcon> {
           setState(() {
             widget.food.favourite = !widget.food.favourite;
           });
-          widget.databaseProvider.updateFood(widget.food);
+          repository.updateFood(widget.food);
         });
   }
 }

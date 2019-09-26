@@ -32,4 +32,8 @@ class SqlSelectBuilder {
 
     return query;
   }
+
+  static String get foodCountQuery{
+    return "SELECT COUNT(*) FROM Food";
+  }
 }

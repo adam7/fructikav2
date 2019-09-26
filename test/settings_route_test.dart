@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fructika/settings_route.dart';
-import 'package:fructika/shared_preferences_helper.dart';
-import 'package:fructika/titles.dart';
+import 'package:fructika/utilities/shared_preferences_helper.dart';
+import 'package:fructika/utilities/titles.dart';
 import 'package:fructika/widgets/fructika_app_bar.dart';
 import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
-
-class MockPreferencesHelper extends Mock implements PreferencesHelper {}
+import 'mocks.dart';
 
 void main() {
   testWidgets('SettingsRoute', (WidgetTester tester) async {
@@ -49,14 +48,12 @@ void main() {
     testWidgets(
         "when a value is returned a WarningLevelDropdownListTile is shown",
         (WidgetTester tester) async {
+      final mockPreferencesHelper = MockPreferencesHelper();
+      final warningLevel = 10.0;
+      when(mockPreferencesHelper.getWarningLevel())
+          .thenAnswer((_) async => Future.value(warningLevel));
+
       await tester.runAsync(() async {
-        final mockPreferencesHelper = MockPreferencesHelper();
-
-        final warningLevel = 10.0;
-
-        when(mockPreferencesHelper.getWarningLevel())
-            .thenAnswer((_) async => Future.value(warningLevel));
-
         await tester.pumpWidget(Provider<PreferencesHelper>.value(
           value: mockPreferencesHelper,
           child: MaterialApp(home: Scaffold(body: WarningLevelSlider())),
@@ -88,12 +85,11 @@ void main() {
 
     testWidgets("when a value is returned a SwitchListTile is shown",
         (WidgetTester tester) async {
+      final mockPreferencesHelper = MockPreferencesHelper();
+      when(mockPreferencesHelper.getShowUnknown())
+          .thenAnswer((_) async => Future.value(true));
+
       await tester.runAsync(() async {
-        final mockPreferencesHelper = MockPreferencesHelper();
-
-        when(mockPreferencesHelper.getShowUnknown())
-            .thenAnswer((_) async => Future.value(true));
-
         await tester.pumpWidget(Provider<PreferencesHelper>.value(
           value: mockPreferencesHelper,
           child: MaterialApp(home: Scaffold(body: ShowUnknownSwitchListTile())),

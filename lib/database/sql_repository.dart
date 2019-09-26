@@ -3,41 +3,24 @@ import 'dart:io';
 import 'package:fructika/database/sql_select_builder.dart';
 import 'package:fructika/models/food.dart';
 import 'package:fructika/models/food_group.dart';
-import 'package:fructika/shared_preferences_helper.dart';
+import 'package:fructika/utilities/shared_preferences_helper.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqlite_rank/sqlite_rank.dart';
-import 'package:fructika/database/database_provider.dart';
-import 'package:fructika/database/migrations.dart';
+import 'package:fructika/database/repository.dart';
 
-class SqlDatabaseProvider extends DatabaseProvider {
-  static final SqlDatabaseProvider db = SqlDatabaseProvider._();
+Future<Database> initDB({Function(Database, int) onCreate}) async {
+  Directory documentsDirectory = await getApplicationDocumentsDirectory();
+  String path = join(documentsDirectory.path, "FoodDB.db");
 
-  SqlDatabaseProvider._();
+  return await openDatabase(path, onCreate: onCreate);
+}
 
-  Database _database;
+class SqlRepository extends Repository {
+  final Future<Database> database;
 
-  Future<Database> get database async {
-    if (_database != null) {
-      return _database;
-    } else {
-      // if _database is null we instantiate it
-      _database = await initDB();
-      return _database;
-    }
-  }
-
-  initDB() async {
-    Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    String path = join(documentsDirectory.path, "FoodDB.db");
-
-    return await openDatabase(path, version: 1, onOpen: (db) {},
-        onCreate: (Database db, int version) async {
-      createTables(db, version);
-      populateTables(db, version);
-    });
-  }
+  SqlRepository(this.database);
 
   updateFood(Food food) async {
     final db = await database;
@@ -64,8 +47,8 @@ class SqlDatabaseProvider extends DatabaseProvider {
       String searchText, PreferencesHelper preferencesHelper) async {
     final db = await database;
     final includeUnknownFructose = await preferencesHelper.getShowUnknown();
-    final searchQuery =
-        SqlSelectBuilder.buildSearchQuery(Platform.isIOS, includeUnknownFructose);
+    final searchQuery = SqlSelectBuilder.buildSearchQuery(
+        Platform.isIOS, includeUnknownFructose);
 
     final rows = await db.rawQuery(searchQuery, ["$searchText*"]);
 

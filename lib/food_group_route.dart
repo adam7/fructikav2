@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:fructika/app_drawer.dart';
-import 'package:fructika/database/database_provider.dart';
+import 'package:fructika/database/repository.dart';
 import 'package:fructika/widgets/fructika_app_bar.dart';
-import 'package:fructika/database/sql_database_provider.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:fructika/models/food_group.dart';
+import 'package:provider/provider.dart';
 
 class FoodGroupRoute extends StatelessWidget {
-  final DatabaseProvider databaseProvider;
-
-  FoodGroupRoute(this.databaseProvider, {Key key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
+final repository = Provider.of<Repository>(context);
+
     return Scaffold(
         appBar: FructikaAppBar(title: Text("Food Groups")),
         body: FutureBuilder<List<FoodGroup>>(
-          future: databaseProvider.getAllFoodGroups(),
+          future: repository.getAllFoodGroups(),
           builder: (context, snapshot) {
             if (snapshot.hasData)
               return _buildFoodGroupCards(snapshot.data);
@@ -55,6 +53,8 @@ class FoodGroupCard extends StatefulWidget {
 class _FoodGroupCardState extends State<FoodGroupCard> {
   @override
   Widget build(BuildContext context) {
+final repository = Provider.of<Repository>(context);
+
     return Card(
         elevation: 12,
         margin: EdgeInsets.all(12.0),
@@ -75,7 +75,7 @@ class _FoodGroupCardState extends State<FoodGroupCard> {
                     setState(() {
                       widget.foodGroup.enabled = value;
                     });
-                    SqlDatabaseProvider.db.updateFoodGroup(widget.foodGroup);
+                    repository.updateFoodGroup(widget.foodGroup);
                   })
             ],
           ),

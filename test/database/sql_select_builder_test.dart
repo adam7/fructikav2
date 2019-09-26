@@ -64,4 +64,12 @@ void main() {
       isSqlEqual(actual, expected);
     });
   });
+
+  test("foodCountQuery", () {
+    final expected = "SELECT COUNT(*) FROM Food";
+
+    final actual = SqlSelectBuilder.foodCountQuery;
+
+    isSqlEqual(actual, expected);
+  });
 }

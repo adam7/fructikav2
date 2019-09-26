@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fructika/shared_preferences_helper.dart';
+import 'package:fructika/utilities/shared_preferences_helper.dart';
 
 void main() {
   group("SharedPreferencesHelper", () {

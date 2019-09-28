@@ -15,12 +15,10 @@ void main() {
     when(mockRepository.database)
         .thenAnswer((_) async => Future.value(mockDatabase));
 
-    await tester.runAsync(() async {
-      await tester.pumpWidget(MultiProvider(
-          providers: [Provider<Repository>.value(value: mockRepository)],
-          child: MaterialApp(home: StartupRoute())));
+    await tester.pumpWidget(MultiProvider(
+        providers: [Provider<Repository>.value(value: mockRepository)],
+        child: MaterialApp(home: StartupRoute())));
 
-      expect(find.byType(StartupBackground), findsOneWidget);
-    });
+    expect(find.byType(StartupBackground), findsOneWidget);
   });
 }

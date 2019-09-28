@@ -113,10 +113,10 @@ void main() {
           .thenAnswer((_) => Future.value("[]"));
 
       final migrator = Migrator(Future.value(db), 1, mockAssetBundle);
-      final stream = migrator.migrate();
+      await migrator.migrate();
 
       expect(
-          stream,
+          migrator.stream,
           emitsInOrder([
             isA<MigrationStatus>()
                 .having((e) => e.message, "message", "Checking status..."),
@@ -137,10 +137,10 @@ void main() {
           .thenAnswer((_) => Future.value(queryResponseCountOne));
 
       final migrator = Migrator(Future.value(db), 1, MockAssetBundle());
-      final stream = migrator.migrate();
+      await migrator.migrate();
 
       expect(
-          stream,
+          migrator.stream,
           emitsInOrder([
             isA<MigrationStatus>()
                 .having((e) => e.message, "message", "Checking status..."),

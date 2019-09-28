@@ -17,49 +17,42 @@ class MigrationStatus {
 }
 
 class Migrator {
-  static final Migrator _singleton = new Migrator._();
-  
-  Future<Database> database;
-  int version;
-  AssetBundle assetBundle;
-
+  final _streamController = StreamController<MigrationStatus>();
+  final Future<Database> database;
+  final int version;
+  final AssetBundle assetBundle;
   final createScripts = [
     SqlCreateBuilder.buildCreateFoodSearch(Platform.isIOS),
     SqlCreateBuilder.createFood,
     SqlCreateBuilder.createFoodGroup
   ];
 
-  Migrator._();
-
-  factory Migrator(Future<Database> database, int version, AssetBundle assetBundle) {
-    _singleton.database = database;
-    _singleton.version = version;
-    _singleton.assetBundle = assetBundle;
-
-    return _singleton;
+  Stream<MigrationStatus> get stream {
+    return _streamController.stream;
   }
 
-  Stream<MigrationStatus> migrate() async* {
-    yield MigrationStatus(0.1, "Checking status...");
+  Migrator(this.database, this.version, this.assetBundle);
 
+  Future<void> migrate() async {
+    _streamController.add(MigrationStatus(0.1, "Checking status..."));
     final runMigrations = await checkIfMigrationsShouldRun();
 
     if (runMigrations) {
-      yield MigrationStatus(0.2, "Creating tables...");
+      _streamController.add(MigrationStatus(0.2, "Creating tables..."));
       await createTables(runMigrations);
 
-      yield MigrationStatus(0.4, "Loading foods...");
+      _streamController.add(MigrationStatus(0.4, "Loading foods..."));
       await populateFoods(
           runMigrations, await assetBundle.loadString('json/foods.json'));
 
-      yield MigrationStatus(0.8, "Loading food groups...");
+      _streamController.add(MigrationStatus(0.8, "Loading food groups..."));
       await populateFoodGroups(
           runMigrations, await assetBundle.loadString('json/food_groups.json'));
     }
 
-    yield MigrationStatus(1, "All done");
+    _streamController.add(MigrationStatus(1, "All done"));
 
-    return;
+    _streamController.close();
   }
 
   createTables(bool runMigrations) async {
@@ -131,9 +124,7 @@ class Migrator {
     try {
       final rawQueryResult = await db.rawQuery(SqlSelectBuilder.foodCountQuery);
 
-      final foodCount = Sqflite.firstIntValue(rawQueryResult);
-
-      return foodCount < 1;
+      return Sqflite.firstIntValue(rawQueryResult) < 1;
     } catch (exception) {
       return true;
     }

@@ -14,6 +14,7 @@ class StartupRoute extends StatelessWidget {
   Widget build(BuildContext context) {
     final repository = Provider.of<Repository>(context);
     final migrator = Migrator(repository.database, 1, rootBundle);
+    migrator.migrate();
 
     return StreamBuilder<MigrationStatus>(
         builder: (context, snapshot) {
@@ -31,7 +32,7 @@ class StartupRoute extends StatelessWidget {
             _startupColumn(snapshot)
           ])));
         },
-        stream: migrator.migrate(),
+        stream: migrator.stream,
         initialData: MigrationStatus(0, ""));
   }
 

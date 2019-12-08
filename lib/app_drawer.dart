@@ -4,7 +4,6 @@ import 'package:fructika/favourites_route.dart';
 import 'package:fructika/food_group_route.dart';
 import 'package:fructika/search_route.dart';
 import 'package:fructika/settings_route.dart';
-import 'package:fructika/startup_route.dart';
 import 'package:fructika/utilities/titles.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 

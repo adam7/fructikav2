@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fructika/app_drawer.dart';
 import 'package:fructika/database/repository.dart';
 import 'package:fructika/widgets/favourite_food_icon.dart';
 import 'package:fructika/models/food.dart';
@@ -37,7 +38,7 @@ void main() {
     await tester.pumpWidget(MultiProvider(providers: [
       Provider<Repository>.value(value: mockRepository),
       Provider<PreferencesHelper>.value(value: mockPreferencesHelper)
-    ], child: MaterialApp(home: SearchRoute())));
+    ], child: MaterialApp(home: SearchRoute(false))));
 
     expect(find.widgetWithText(FructikaAppBar, Titles.foodSearchTitle),
         findsOneWidget,
@@ -49,6 +50,25 @@ void main() {
 
     expect(find.byType(TextField), findsOneWidget,
         reason: "should have only one text input");
+        
+    expect(find.byType(AppDrawer), findsNothing,
+        reason: "the AppDrawer should not be visible");
+  });
+
+  testWidgets('SearchRoute when _showDrawer is true',
+      (WidgetTester tester) async {
+    final mockRepository = MockRepository();
+    final mockPreferencesHelper = MockPreferencesHelper();
+
+    await tester.pumpWidget(MultiProvider(providers: [
+      Provider<Repository>.value(value: mockRepository),
+      Provider<PreferencesHelper>.value(value: mockPreferencesHelper)
+    ], child: MaterialApp(home: SearchRoute(true))));
+
+    await tester.pumpAndSettle();
+
+    expect(find.byType(AppDrawer), findsOneWidget,
+        reason: "the AppDrawer should be visible");
   });
 
   testWidgets('SearchRoute when searching with less than minimum characters',
@@ -59,7 +79,7 @@ void main() {
     await tester.pumpWidget(MultiProvider(providers: [
       Provider<Repository>.value(value: mockRepository),
       Provider<PreferencesHelper>.value(value: mockPreferencesHelper)
-    ], child: MaterialApp(home: SearchRoute())));
+    ], child: MaterialApp(home: SearchRoute(false))));
 
     await tester.enterText(find.byType(TextField), 'p');
     await tester.enterText(find.byType(TextField), 'pe');
@@ -92,7 +112,7 @@ void main() {
     await tester.pumpWidget(MultiProvider(providers: [
       Provider<Repository>.value(value: mockRepository),
       Provider<PreferencesHelper>.value(value: mockPreferencesHelper)
-    ], child: MaterialApp(home: SearchRoute())));
+    ], child: MaterialApp(home: SearchRoute(false))));
 
     await tester.enterText(find.byType(TextField), peaText);
     await tester.pumpAndSettle();

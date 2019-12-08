@@ -21,7 +21,7 @@ class StartupRoute extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.done) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => SearchRoute()));
+                  MaterialPageRoute(builder: (context) => SearchRoute(true)));
             });
           }
 
